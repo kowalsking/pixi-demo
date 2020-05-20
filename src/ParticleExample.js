@@ -1,6 +1,8 @@
 import * as PIXI from "pixi.js";
+import * as particles from "pixi-particles";
+import bc from "./images/bc.png";
 
-(function (window) {
+export default (function (window) {
   /**
    *  Basic example setup
    *  @class ParticleExample
@@ -84,22 +86,24 @@ import * as PIXI from "pixi.js";
       urls = imagePaths.slice();
       makeTextures = true;
     }
-    urls.push("images/bg.png");
-    var loader = PIXI.loader;
-    for (var i = 0; i < urls.length; ++i) loader.add("img" + i, urls[i]);
+    urls.push(bc);
+    var loader = PIXI.Loader.shared;
+    console.log(urls);
+    for (var i = 0; i < urls.length; ++i)
+      loader.add("tile" + "00" + i, urls[i]);
     loader.load(function () {
-      bg = new PIXI.Sprite(PIXI.Texture.fromImage("images/bg.png"));
+      bg = new PIXI.Sprite(PIXI.Texture.from(bc));
       //bg is a 1px by 1px image
       bg.scale.x = canvas.width;
       bg.scale.y = canvas.height;
-      bg.tint = 0x000000;
+      bg.tint = 0xffffff;
       stage.addChild(bg);
       //collect the textures, now that they are all loaded
       var art;
       if (makeTextures) {
         art = [];
         for (var i = 0; i < imagePaths.length; ++i)
-          art.push(PIXI.Texture.fromImage(imagePaths[i]));
+          art.push(PIXI.Texture.from(imagePaths[i]));
       } else art = imagePaths.art;
       // Create the new emitter and attach it to the stage
       var emitterContainer;
@@ -114,20 +118,19 @@ import * as PIXI from "pixi.js";
         });
       } else emitterContainer = new PIXI.Container();
       stage.addChild(emitterContainer);
-      window.emitter = emitter = new PIXI.particles.Emitter(
+      window.emitter = emitter = new particles.Emitter(
         emitterContainer,
         art,
         config
       );
       if (stepColors)
-        emitter.startColor = PIXI.particles.ParticleUtils.createSteppedGradient(
+        emitter.startColor = particles.ParticleUtils.createSteppedGradient(
           config.color.list,
           stepColors
         );
-      if (type == "path")
-        emitter.particleConstructor = PIXI.particles.PathParticle;
+      if (type == "path") emitter.particleConstructor = particles.PathParticle;
       else if (type == "anim")
-        emitter.particleConstructor = PIXI.particles.AnimatedParticle;
+        emitter.particleConstructor = particles.AnimatedParticle;
 
       // Center on the stage
       emitter.updateOwnerPos(window.innerWidth / 2, window.innerHeight / 2);

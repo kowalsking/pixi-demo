@@ -1,6 +1,14 @@
 import * as PIXI from "pixi.js";
 import * as particles from "pixi-particles";
 import coin from "./coin.png";
+import i1 from "./images/tile000.png";
+import i2 from "./images/tile011.png";
+// import Particle from "./Particle";
+import spritesheetCoin from "./coin.json";
+import "./ParticleExample";
+// new Particle({
+//   spritesheet: spritesheetCoin,
+// });
 
 const app = new PIXI.Application();
 document.body.append(app.view);
@@ -15,7 +23,7 @@ var emitter = new particles.Emitter(
   container,
 
   // The collection of particle images to use
-  [PIXI.Texture.from(coin)],
+  [PIXI.Texture.from(i1), PIXI.Texture.from(i2)],
 
   // Emitter configuration, edit this to change the look
   // of the emitter
@@ -23,11 +31,11 @@ var emitter = new particles.Emitter(
     alpha: {
       list: [
         {
-          value: 0.8,
+          value: 1,
           time: 0,
         },
         {
-          value: 0.1,
+          value: 1,
           time: 1,
         },
       ],
@@ -40,64 +48,64 @@ var emitter = new particles.Emitter(
           time: 0,
         },
         {
-          value: 0.3,
+          value: 1,
           time: 1,
         },
       ],
       isStepped: false,
     },
-    color: {
-      list: [
-        {
-          value: "fb1010",
-          time: 0,
-        },
-        {
-          value: "f5b830",
-          time: 1,
-        },
-      ],
-      isStepped: false,
-    },
-    speed: {
-      list: [
-        {
-          value: 200,
-          time: 0,
-        },
-        {
-          value: 100,
-          time: 1,
-        },
-      ],
-      isStepped: false,
-    },
-    startRotation: {
-      min: 0,
-      max: 360,
-    },
-    rotationSpeed: {
-      min: 0,
-      max: 0,
-    },
+    // color: {
+    //   list: [
+    //     {
+    //       value: "fb1010",
+    //       time: 0,
+    //     },
+    //     {
+    //       value: "f5b830",
+    //       time: 1,
+    //     },
+    //   ],
+    //   isStepped: false,
+    // },
+    // speed: {
+    //   list: [
+    //     {
+    //       value: 0,
+    //       time: 0,
+    //     },
+    //     {
+    //       value: 0,
+    //       time: 1,
+    //     },
+    //   ],
+    //   isStepped: false,
+    // },
+    // startRotation: {
+    //   min: 0,
+    //   max: 0,
+    // },
+    // rotationSpeed: {
+    //   min: 0,
+    //   max: 0,
+    // },
     lifetime: {
-      min: 0.5,
-      max: 0.5,
+      min: 1,
+      max: 1,
     },
-    frequency: 0.008,
+    frequency: 0.001,
     spawnChance: 1,
     particlesPerWave: 1,
-    emitterLifetime: 0.31,
-    maxParticles: 1000,
+    emitterLifetime: 10,
+    maxParticles: 1,
     pos: {
       x: 0,
       y: 0,
     },
-    addAtBack: false,
+    addAtBack: true,
     spawnType: "circle",
     spawnCircle: {
-      x: 0,
-      y: 0,
+      x: app.view.width / 2,
+      y: app.view.height / 2,
       r: 10,
     },
   }
