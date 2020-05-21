@@ -1,13 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js">
   <head>
-    <title>Pixi Demos</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Animated Coins</title>
+    <meta name="description" content="Animated coins" />
+    <link rel="stylesheet" href="css/main.css" />
+
+    <!-- Required dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.8/pixi.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pixi-particles-latest@3.2.0/dist/pixi-particles.min.js"></script>
+
+    <!-- Example scaffolding -->
+    <script src="ParticleExample.js"></script>
   </head>
   <body>
-    <div id="stage"></div>
     <div id="framerate"></div>
-    <div id="particleCount"></div>
+    <div id="instructions">Click Anywhere</div>
+    <canvas id="stage" width="400" height="400"></canvas>
+    <script>
+      // See js/ParticleExample.js for actual setup
+
+      // The image to use
+      var images = {
+        spritesheet: "coin.json",
+        art: [
+          {
+            framerate: 30,
+            loop: false,
+            textures: [
+              "0001.png",
+              "0002.png",
+              "0003.png",
+              "0004.png",
+              "0005.png",
+              "0006.png",
+              "0007.png",
+              "0008.png",
+              "0009.png",
+              "0010.png",
+              "0011.png",
+              "0012.png",
+              "0013.png",
+              "0014.png",
+              "0015.png",
+              "0016.png",
+              "0017.png",
+              "0018.png",
+              "0019.png",
+              "0020.png",
+              "0021.png",
+              "0022.png",
+              "0023.png",
+              "0024.png",
+              "0025.png",
+              "0026.png",
+              "0027.png",
+              "0028.png",
+              "0029.png",
+              "0030.png",
+            ],
+          },
+          {
+            framerate: 30,
+            loop: false,
+            textures: [
+              "0030.png",
+              "0029.png",
+              "0028.png",
+              "0027.png",
+              "0026.png",
+              "0025.png",
+              "0024.png",
+              "0023.png",
+              "0022.png",
+              "0021.png",
+              "0020.png",
+              "0019.png",
+              "0018.png",
+              "0017.png",
+              "0016.png",
+              "0015.png",
+              "0014.png",
+              "0013.png",
+              "0012.png",
+              "0011.png",
+              "0010.png",
+              "0009.png",
+              "0008.png",
+              "0007.png",
+              "0006.png",
+              "0005.png",
+              "0004.png",
+              "0003.png",
+              "0002.png",
+              "0001.png",
+            ],
+          },
+        ],
+      };
+
+      // Emitter configuration, edit this to change the look
+      // of the emitter
+      // var config = {
+      //   alpha: {
+      //     start: 1,
+      //     end: 0.8,
+      //   },
+      //   scale: {
+      //     start: 0.5,
+      //     end: 0.5,
+      //   },
+      //   color: {
+      //     start: "ffffff",
+      //     end: "ffffff",
+      //   },
+      //   speed: {
+      //     start: 200,
+      //     end: 100,
+      //   },
+      //   acceleration: {
+      //     x: 0,
+      //     y: 2000,
+      //   },
+      //   startRotation: {
+      //     min: 260,
+      //     max: 280,
+      //   },
+      //   rotationSpeed: {
+      //     min: 0,
+      //     max: 0,
+      //   },
+      //   lifetime: {
+      //     min: 0.25,
+      //     max: 0.7,
+      //   },
+      //   blendMode: "normal",
+      //   frequency: 0.001,
+      //   emitterLifetime: 0,
+      //   maxParticles: 50,
+      //   pos: {
+      //     x: window.innerWidth / 2,
+      //     y: window.innerHeight / 2,
+      //   },
+      //   addAtBack: false,
+      //   spawnType: "circle",
+      //   spawnCircle: {
+      //     x: 0,
+      //     y: 0,
+      //     r: 10,
+      //   },
+      // };
+
+      const config = {
+        alpha: {
+          start: 1,
+          end: 1,
+        },
+        scale: {
+          start: 0.25,
+          end: 0.45,
+          minimumScaleMultiplier: 0.5,
+        },
+        color: {
+          start: "#ffffff",
+          end: "#f9fcc0",
+        },
+        speed: {
+          start: 500,
+          end: 200,
+          minimumSpeedMultiplier: 1.9,
+        },
+        acceleration: {
+          x: 0,
+          y: 3000,
+        },
+        startRotation: {
+          min: 0,
+          max: 360,
+        },
+        rotationSpeed: {
+          min: 100,
+          max: 200,
+        },
+        lifetime: {
+          min: 0.5,
+          max: 1,
+        },
+        blendMode: "normal",
+        frequency: 0.001,
+        emitterLifetime: 0.5,
+        maxParticles: 50,
+        pos: {
+          x: 0,
+          y: 0,
+        },
+        addAtBack: true,
+        spawnType: "point",
+      };
+      // const config = {
+      //   alpha: {
+      //     start: 1,
+      //     end: 1,
+      //   },
+      //   scale: {
+      //     start: 0.35,
+      //     end: 0.85,
+      //     minimumScaleMultiplier: 0.5,
+      //   },
+      //   speed: {
+      //     start: 500,
+      //     end: 0,
+      //     minimumSpeedMultiplier: 1.9,
+      //   },
+      //   acceleration: {
+      //     x: 0,
+      //     y: 4000,
+      //   },
+      //   startRotation: {
+      //     min: 0,
+      //     max: 360,
+      //   },
+      //   rotationSpeed: {
+      //     min: 100,
+      //     max: 200,
+      //   },
+      //   lifetime: {
+      //     min: 0.5,
+      //     max: 1,
+      //   },
+      //   blendMode: "normal",
+      //   frequency: 0.001,
+      //   emitterLifetime: 0.1,
+      //   maxParticles: 100,
+      //   pos: {
+      //     x: 0,
+      //     y: 0,
+      //   },
+      //   addAtBack: true,
+      //   spawnType: "point",
+      // };
+      //tell the particle example to use AnimatedParticle
+      new ParticleExample(images, config, config, "anim");
+    </script>
   </body>
 </html>

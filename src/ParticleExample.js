@@ -1,8 +1,4 @@
-import * as PIXI from "pixi.js";
-import * as particles from "pixi-particles";
-import bc from "./images/bc.png";
-
-export default (function (window) {
+(function (window) {
   /**
    *  Basic example setup
    *  @class ParticleExample
@@ -16,6 +12,7 @@ export default (function (window) {
   var ParticleExample = function (
     imagePaths,
     config,
+    config1,
     type,
     useParticleContainer,
     stepColors
@@ -30,6 +27,7 @@ export default (function (window) {
 			rendererOptions.transparent = "notMultiplied";*/
     var stage = new PIXI.Container(),
       emitter = null,
+      emitter1 = null,
       renderer = PIXI.autoDetectRenderer(
         canvas.width,
         canvas.height,
@@ -53,6 +51,8 @@ export default (function (window) {
       var now = Date.now();
       if (emitter) emitter.update((now - elapsed) * 0.001);
 
+      if (emitter1) emitter1.update((now - elapsed) * 0.001);
+
       framerate.innerHTML = (1000 / (now - elapsed)).toFixed(2);
 
       elapsed = now;
@@ -69,11 +69,6 @@ export default (function (window) {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       renderer.resize(canvas.width, canvas.height);
-      if (bg) {
-        //bg is a 1px by 1px image
-        bg.scale.x = canvas.width;
-        bg.scale.y = canvas.height;
-      }
     };
     window.onresize();
 
@@ -86,24 +81,21 @@ export default (function (window) {
       urls = imagePaths.slice();
       makeTextures = true;
     }
-    urls.push(bc);
-    var loader = PIXI.Loader.shared;
-    console.log(urls);
-    for (var i = 0; i < urls.length; ++i)
-      loader.add("tile" + "00" + i, urls[i]);
+    urls.push("images/bc.png");
+    var loader = PIXI.loader;
+    for (var i = 0; i < urls.length; ++i) loader.add("img" + i, urls[i]);
     loader.load(function () {
-      bg = new PIXI.Sprite(PIXI.Texture.from(bc));
-      //bg is a 1px by 1px image
-      bg.scale.x = canvas.width;
-      bg.scale.y = canvas.height;
-      bg.tint = 0xffffff;
+      bg = new PIXI.Sprite(PIXI.Texture.fromImage("images/bc.png"));
+      bg.width = canvas.width;
+      bg.height = canvas.height;
+      //bg.tint = 0x000000;
       stage.addChild(bg);
       //collect the textures, now that they are all loaded
       var art;
       if (makeTextures) {
         art = [];
         for (var i = 0; i < imagePaths.length; ++i)
-          art.push(PIXI.Texture.from(imagePaths[i]));
+          art.push(PIXI.Texture.fromImage(imagePaths[i]));
       } else art = imagePaths.art;
       // Create the new emitter and attach it to the stage
       var emitterContainer;
@@ -118,22 +110,72 @@ export default (function (window) {
         });
       } else emitterContainer = new PIXI.Container();
       stage.addChild(emitterContainer);
-      window.emitter = emitter = new particles.Emitter(
+      window.emitter = emitter = new PIXI.particles.Emitter(
         emitterContainer,
         art,
         config
       );
+      window.emitter1 = emitter1 = new PIXI.particles.Emitter(
+        emitterContainer,
+        art,
+        config1
+      );
       if (stepColors)
-        emitter.startColor = particles.ParticleUtils.createSteppedGradient(
+        emitter.startColor = PIXI.particles.ParticleUtils.createSteppedGradient(
           config.color.list,
           stepColors
         );
-      if (type == "path") emitter.particleConstructor = particles.PathParticle;
+      if (type == "path")
+        emitter.particleConstructor = PIXI.particles.PathParticle;
       else if (type == "anim")
-        emitter.particleConstructor = particles.AnimatedParticle;
+        emitter.particleConstructor = PIXI.particles.AnimatedParticle;
+
+      emitter1.particleConstructor = PIXI.particles.AnimatedParticle;
 
       // Center on the stage
       emitter.updateOwnerPos(window.innerWidth / 2, window.innerHeight / 2);
+
+      // setInterval(() => {
+      //   if (!emitter) return;
+      //   emitter.maxParticles = randomInteger(10, 1200);
+      //   emitter.minimumScaleMultiplier = 0.1 + Math.random() / 10.0;
+      //   emitter.frequency = 0.005 + (Math.random() - 0.5) / 100.0;
+      //   var cl = randomInteger(1, 3);
+      //   switch (cl) {
+      //     case 1:
+      //       emitter.startColor.value = {
+      //         r: randomInteger(80, 255),
+      //         g: 255,
+      //         b: 255,
+      //       };
+      //       break;
+      //     case 2:
+      //       emitter.startColor.value = {
+      //         r: 255,
+      //         g: randomInteger(120, 255),
+      //         b: 255,
+      //       };
+      //       break;
+      //     case 3:
+      //       emitter.startColor.value = {
+      //         r: 255,
+      //         g: 255,
+      //         b: randomInteger(180, 255),
+      //       };
+      //       break;
+      //   }
+
+      //   emitter.emitterLifetime = Math.random() * 3.0;
+      //   emitter.acceleration = { x: 0, y: randomInteger(100, 8000) };
+      //   emitter.emit = true;
+      //   emitter1.emit = true;
+      //   emitter.resetPositionTracking();
+      //   emitter1.resetPositionTracking();
+      //   emitter.updateOwnerPos(
+      //     window.innerWidth / 2,
+      //     window.innerHeight * 1.2 - randomInteger(0, window.innerHeight * 1.2)
+      //   );
+      // }, 2000);
 
       // Click on the canvas to trigger
       canvas.addEventListener("mouseup", function (e) {
@@ -145,7 +187,11 @@ export default (function (window) {
 
       // Start the update
       update();
-
+      var randomInteger = function (min, max) {
+        // случайное число от min до (max+1)
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+      };
       //for testing and debugging
       window.destroyEmitter = function () {
         emitter.destroy();

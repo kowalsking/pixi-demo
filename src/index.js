@@ -3,6 +3,8 @@ import * as particles from "pixi-particles";
 import coin from "./coin.png";
 import i1 from "./images/tile000.png";
 import i2 from "./images/tile011.png";
+import i3 from "./images/tile021.png";
+import i4 from "./images/tile029.png";
 // import Particle from "./Particle";
 import spritesheetCoin from "./coin.json";
 import "./ParticleExample";
@@ -16,6 +18,8 @@ document.body.append(app.view);
 const container = new PIXI.Container();
 app.stage.addChild(container);
 
+const coins = [i1, i2, i3, i4];
+
 var emitter = new particles.Emitter(
   // The PIXI.Container to put the emitter in
   // if using blend modes, it's important to put this
@@ -23,7 +27,12 @@ var emitter = new particles.Emitter(
   container,
 
   // The collection of particle images to use
-  [PIXI.Texture.from(i1), PIXI.Texture.from(i2)],
+  [
+    PIXI.Texture.from(i1),
+    PIXI.Texture.from(i2),
+    PIXI.Texture.from(i3),
+    PIXI.Texture.from(i4),
+  ],
 
   // Emitter configuration, edit this to change the look
   // of the emitter
@@ -33,6 +42,10 @@ var emitter = new particles.Emitter(
         {
           value: 1,
           time: 0,
+        },
+        {
+          value: 0.2,
+          time: 0.5,
         },
         {
           value: 1,
@@ -74,7 +87,7 @@ var emitter = new particles.Emitter(
     //       time: 0,
     //     },
     //     {
-    //       value: 0,
+    //       value: 1,
     //       time: 1,
     //     },
     //   ],
@@ -101,12 +114,12 @@ var emitter = new particles.Emitter(
       x: 0,
       y: 0,
     },
-    addAtBack: true,
+    addAtBack: false,
     spawnType: "circle",
     spawnCircle: {
       x: app.view.width / 2,
       y: app.view.height / 2,
-      r: 10,
+      r: 1,
     },
   }
 );
