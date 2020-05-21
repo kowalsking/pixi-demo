@@ -100,65 +100,13 @@
         ],
       };
 
-      // Emitter configuration, edit this to change the look
-      // of the emitter
-      // var config = {
-      //   alpha: {
-      //     start: 1,
-      //     end: 0.8,
-      //   },
-      //   scale: {
-      //     start: 0.5,
-      //     end: 0.5,
-      //   },
-      //   color: {
-      //     start: "ffffff",
-      //     end: "ffffff",
-      //   },
-      //   speed: {
-      //     start: 200,
-      //     end: 100,
-      //   },
-      //   acceleration: {
-      //     x: 0,
-      //     y: 2000,
-      //   },
-      //   startRotation: {
-      //     min: 260,
-      //     max: 280,
-      //   },
-      //   rotationSpeed: {
-      //     min: 0,
-      //     max: 0,
-      //   },
-      //   lifetime: {
-      //     min: 0.25,
-      //     max: 0.7,
-      //   },
-      //   blendMode: "normal",
-      //   frequency: 0.001,
-      //   emitterLifetime: 0,
-      //   maxParticles: 50,
-      //   pos: {
-      //     x: window.innerWidth / 2,
-      //     y: window.innerHeight / 2,
-      //   },
-      //   addAtBack: false,
-      //   spawnType: "circle",
-      //   spawnCircle: {
-      //     x: 0,
-      //     y: 0,
-      //     r: 10,
-      //   },
-      // };
-
       const config = {
         alpha: {
           start: 1,
           end: 1,
         },
         scale: {
-          start: 0.25,
+          start: 0.45,
           end: 0.45,
           minimumScaleMultiplier: 0.5,
         },
@@ -167,9 +115,30 @@
           end: "#f9fcc0",
         },
         speed: {
-          start: 500,
-          end: 200,
-          minimumSpeedMultiplier: 1.9,
+          list: [
+            {
+              value: 500,
+              time: 0,
+            },
+            {
+              value: 0,
+              time: 0.1,
+            },
+            // {
+            //   value: 0,
+            //   time: 0.5,
+            // },
+            // {
+            //   value: 50,
+            //   time: 0.7,
+            // },
+            {
+              value: 0,
+              time: 1,
+            },
+          ],
+          isStepped: false,
+          minimumSpeedMultiplier: 2.25,
         },
         acceleration: {
           x: 0,
@@ -184,8 +153,8 @@
           max: 200,
         },
         lifetime: {
-          min: 0.5,
-          max: 1,
+          min: 1.5,
+          max: 1.5,
         },
         blendMode: "normal",
         frequency: 0.001,
@@ -198,49 +167,7 @@
         addAtBack: true,
         spawnType: "point",
       };
-      // const config = {
-      //   alpha: {
-      //     start: 1,
-      //     end: 1,
-      //   },
-      //   scale: {
-      //     start: 0.35,
-      //     end: 0.85,
-      //     minimumScaleMultiplier: 0.5,
-      //   },
-      //   speed: {
-      //     start: 500,
-      //     end: 0,
-      //     minimumSpeedMultiplier: 1.9,
-      //   },
-      //   acceleration: {
-      //     x: 0,
-      //     y: 4000,
-      //   },
-      //   startRotation: {
-      //     min: 0,
-      //     max: 360,
-      //   },
-      //   rotationSpeed: {
-      //     min: 100,
-      //     max: 200,
-      //   },
-      //   lifetime: {
-      //     min: 0.5,
-      //     max: 1,
-      //   },
-      //   blendMode: "normal",
-      //   frequency: 0.001,
-      //   emitterLifetime: 0.1,
-      //   maxParticles: 100,
-      //   pos: {
-      //     x: 0,
-      //     y: 0,
-      //   },
-      //   addAtBack: true,
-      //   spawnType: "point",
-      // };
-      //tell the particle example to use AnimatedParticle
+
       new ParticleExample(images, config, config, "anim");
     </script>
   </body>
