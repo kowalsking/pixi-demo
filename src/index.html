@@ -13,15 +13,13 @@
 
     <!-- Example scaffolding -->
     <script src="ParticleExample.js"></script>
+    <script src="Particle.js"></script>
   </head>
   <body>
     <div id="framerate"></div>
     <div id="instructions">Click Anywhere</div>
-    <canvas id="stage" width="400" height="400"></canvas>
+    <canvas id="stage"></canvas>
     <script>
-      // See js/ParticleExample.js for actual setup
-
-      // The image to use
       var images = {
         spritesheet: "coin.json",
         art: [
@@ -124,14 +122,6 @@
               value: 0,
               time: 0.1,
             },
-            // {
-            //   value: 0,
-            //   time: 0.5,
-            // },
-            // {
-            //   value: 50,
-            //   time: 0.7,
-            // },
             {
               value: 0,
               time: 1,
@@ -142,7 +132,7 @@
         },
         acceleration: {
           x: 0,
-          y: 3000,
+          y: 2000,
         },
         startRotation: {
           min: 0,
@@ -159,7 +149,7 @@
         blendMode: "normal",
         frequency: 0.001,
         emitterLifetime: 0.5,
-        maxParticles: 50,
+        maxParticles: 70,
         pos: {
           x: 0,
           y: 0,
@@ -168,7 +158,8 @@
         spawnType: "point",
       };
 
-      new ParticleExample(images, config, config, "anim");
+      // new ParticleExample(images, /*config*/ config, "anim");
+      new Particle(images, config, "anim");
     </script>
   </body>
 </html>

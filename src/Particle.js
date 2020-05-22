@@ -1,7 +1,3 @@
-import * as PIXI from "pixi.js";
-import * as particles from "pixi-particles";
-import "./pixi-legacy";
-
 class Particle {
   constructor(imagePaths, config, type, useParticleContainer, stepColors) {
     this.imagePaths = imagePaths;
@@ -9,16 +5,15 @@ class Particle {
     this.type = type;
     this.useParticleContainer = useParticleContainer;
     this.stepColors = stepColors;
+    this.elapsed = Date.now();
     this.setup();
-    this.update(Date.now());
     this.preload();
   }
 
   setup() {
-    const stage = document.querySelector("#stage");
-    this.canvas = new PIXI.Application({ width: 400, height: 400 });
-    stage.append(this.canvas.view);
-
+    this.canvas = document.querySelector("#stage");
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
     const rendererOptions = {
       view: this.canvas,
     };
@@ -30,40 +25,37 @@ class Particle {
       this.canvas.height,
       rendererOptions
     );
+
+    this.clickHandler();
   }
 
-  update(elapsed) {
-    window.requestAnimationFrame.bind(this, this.update);
+  update() {
+    window.requestAnimationFrame.bind(window, this.update.bind(this))();
+    const framerate = document.getElementById("framerate");
     const now = Date.now();
 
     if (this.emitter) {
-      emitter.update((now - elapsed) * 0.001);
+      this.emitter.update((now - this.elapsed) * 0.001);
     }
 
-    framerate.innerHTML = (1000 / (now - elapsed)).toFixed(2);
+    framerate.innerHTML = (1000 / (now - this.elapsed)).toFixed(2);
 
-    elapsed = now;
-
-    if (this.emitter && particleCount) {
-      particleCount.innerHTML = emitter.particleCount;
-    }
+    this.elapsed = now;
 
     this.renderer.render(this.stage);
   }
 
   preload() {
-    this.urls = [];
-    const loader = PIXI.Loader.shared;
-    Object.keys(this.imagePaths.spritesheet.frames).map((img) => {
-      this.urls.push(`./images/title${img}`);
-    });
-    this.urls.forEach((url, idx) => {
-      loader.add(`${idx}`, url);
+    const urls = [this.imagePaths.spritesheet];
+    urls.push("images/bc.png");
+    const loader = PIXI.loader;
+    urls.forEach((url, idx) => {
+      loader.add(`img${idx}`, url);
     });
 
     loader.load(() => {
       const art = this.imagePaths.art;
-
+      this.setupBG();
       let emitterContainer;
       if (this.useParticleContainer) {
         emitterContainer = new PIXI.ParticleContainer();
@@ -79,9 +71,8 @@ class Particle {
       }
 
       this.stage.addChild(emitterContainer);
-      console.log(particles);
 
-      window.emitter = this.emitter = new particles.Emitter(
+      window.emitter = this.emitter = new PIXI.particles.Emitter(
         emitterContainer,
         art,
         config
@@ -89,13 +80,30 @@ class Particle {
 
       if (this.type === "path") {
         this.emitter.particleConstructor = PIXI.particles.PathParticle;
-      } else if (type === "anim") {
+      } else if (this.type === "anim") {
         this.emitter.particleConstructor = PIXI.particles.AnimatedParticle;
       }
 
       emitter.updateOwnerPos(window.innerWidth / 2, window.innerHeight / 2);
+      this.update();
     });
+  }
+
+  clickHandler() {
+    this.canvas.addEventListener("mouseup", (e) => {
+      if (!emitter) return;
+      this.emitter.emit = true;
+      this.emitter.resetPositionTracking();
+      this.emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
+    });
+  }
+
+  setupBG() {
+    const bg = new PIXI.Sprite(PIXI.Texture.fromImage("images/bc.png"));
+    bg.width = this.canvas.width;
+    bg.height = this.canvas.height;
+    this.stage.addChild(bg);
   }
 }
 
-export default Particle;
+window.Particle = Particle;

@@ -12,7 +12,7 @@
   var ParticleExample = function (
     imagePaths,
     config,
-    config1,
+    // config1,
     type,
     useParticleContainer,
     stepColors
@@ -115,11 +115,11 @@
         art,
         config
       );
-      window.emitter1 = emitter1 = new PIXI.particles.Emitter(
-        emitterContainer,
-        art,
-        config1
-      );
+      // window.emitter1 = emitter1 = new PIXI.particles.Emitter(
+      //   emitterContainer,
+      //   art,
+      //   config1
+      // );
       if (stepColors)
         emitter.startColor = PIXI.particles.ParticleUtils.createSteppedGradient(
           config.color.list,
@@ -130,7 +130,7 @@
       else if (type == "anim")
         emitter.particleConstructor = PIXI.particles.AnimatedParticle;
 
-      emitter1.particleConstructor = PIXI.particles.AnimatedParticle;
+      // emitter1.particleConstructor = PIXI.particles.AnimatedParticle;
 
       // Center on the stage
       emitter.updateOwnerPos(window.innerWidth / 2, window.innerHeight / 2);
@@ -187,28 +187,28 @@
 
       // Start the update
       update();
-      var randomInteger = function (min, max) {
-        // случайное число от min до (max+1)
-        let rand = min + Math.random() * (max + 1 - min);
-        return Math.floor(rand);
-      };
+      // var randomInteger = function (min, max) {
+      //   // случайное число от min до (max+1)
+      //   let rand = min + Math.random() * (max + 1 - min);
+      //   return Math.floor(rand);
+      // };
       //for testing and debugging
-      window.destroyEmitter = function () {
-        emitter.destroy();
-        emitter = null;
-        window.destroyEmitter = null;
-        //cancelAnimationFrame(updateId);
+      // window.destroyEmitter = function () {
+      //   emitter.destroy();
+      //   emitter = null;
+      //   window.destroyEmitter = null;
+      //   //cancelAnimationFrame(updateId);
 
-        //reset SpriteRenderer's batching to fully release particles for GC
-        if (
-          renderer.plugins &&
-          renderer.plugins.sprite &&
-          renderer.plugins.sprite.sprites
-        )
-          renderer.plugins.sprite.sprites.length = 0;
+      //   //reset SpriteRenderer's batching to fully release particles for GC
+      //   if (
+      //     renderer.plugins &&
+      //     renderer.plugins.sprite &&
+      //     renderer.plugins.sprite.sprites
+      //   )
+      //     renderer.plugins.sprite.sprites.length = 0;
 
-        renderer.render(stage);
-      };
+      //   renderer.render(stage);
+      // };
     });
   };
 
