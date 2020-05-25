@@ -1,150 +1,40 @@
-import * as PIXI from "pixi.js";
-import * as particles from "pixi-particles";
-import coin from "./coin.png";
-import i1 from "./images/tile000.png";
-import i2 from "./images/tile011.png";
-import i3 from "./images/tile021.png";
-import i4 from "./images/tile029.png";
-// import Particle from "./Particle";
-import spritesheetCoin from "./coin.json";
-import "./ParticleExample";
-// new Particle({
-//   spritesheet: spritesheetCoin,
-// });
+var app = new PIXI.Application(window.innerWidth, window.innerHeight);
+document.body.appendChild(app.view);
 
-const app = new PIXI.Application();
-document.body.append(app.view);
+app.stop();
 
-const container = new PIXI.Container();
-app.stage.addChild(container);
+// load spine data
+PIXI.loader.add("bigwin", "bigwin/big_win_animation.json").load(onAssetsLoaded);
 
-const coins = [i1, i2, i3, i4];
+var dragon = null;
 
-var emitter = new particles.Emitter(
-  // The PIXI.Container to put the emitter in
-  // if using blend modes, it's important to put this
-  // on top of a bitmap, and not use the root stage Container
-  container,
+function onAssetsLoaded(loader, res) {
+  // instantiate the spine animation
+  dragon = new PIXI.spine.Spine(res.bigwin.spineData);
+  dragon.skeleton.setToSetupPose();
+  dragon.autoUpdate = false;
 
-  // The collection of particle images to use
-  [
-    PIXI.Texture.from(i1),
-    PIXI.Texture.from(i2),
-    PIXI.Texture.from(i3),
-    PIXI.Texture.from(i4),
-  ],
+  // create a container for the spine animation and add the animation to it
+  var dragonCage = new PIXI.Container();
+  dragonCage.addChild(dragon);
 
-  // Emitter configuration, edit this to change the look
-  // of the emitter
-  {
-    alpha: {
-      list: [
-        {
-          value: 1,
-          time: 0,
-        },
-        {
-          value: 0.2,
-          time: 0.5,
-        },
-        {
-          value: 1,
-          time: 1,
-        },
-      ],
-      isStepped: false,
-    },
-    scale: {
-      list: [
-        {
-          value: 1,
-          time: 0,
-        },
-        {
-          value: 1,
-          time: 1,
-        },
-      ],
-      isStepped: false,
-    },
-    // color: {
-    //   list: [
-    //     {
-    //       value: "fb1010",
-    //       time: 0,
-    //     },
-    //     {
-    //       value: "f5b830",
-    //       time: 1,
-    //     },
-    //   ],
-    //   isStepped: false,
-    // },
-    // speed: {
-    //   list: [
-    //     {
-    //       value: 0,
-    //       time: 0,
-    //     },
-    //     {
-    //       value: 1,
-    //       time: 1,
-    //     },
-    //   ],
-    //   isStepped: false,
-    // },
-    // startRotation: {
-    //   min: 0,
-    //   max: 0,
-    // },
-    // rotationSpeed: {
-    //   min: 0,
-    //   max: 0,
-    // },
-    lifetime: {
-      min: 1,
-      max: 1,
-    },
-    frequency: 0.001,
-    spawnChance: 1,
-    particlesPerWave: 1,
-    emitterLifetime: 10,
-    maxParticles: 1,
-    pos: {
-      x: 0,
-      y: 0,
-    },
-    addAtBack: false,
-    spawnType: "circle",
-    spawnCircle: {
-      x: app.view.width / 2,
-      y: app.view.height / 2,
-      r: 1,
-    },
-  }
-);
+  // measure the spine animation and position it inside its container to align it to the origin
+  var localRect = dragon.getLocalBounds();
+  dragon.position.set(-localRect.x, -localRect.y);
 
-// Calculate the current time
-var elapsed = Date.now();
+  dragonCage.scale.set(1);
+  dragonCage.position.set(window.innerWidth * 0.5, window.innerHeight * 0.5);
 
-// Update function every frame
-var update = function () {
-  // Update the next frame
-  requestAnimationFrame(update);
+  // add the container to the stage
+  app.stage.addChild(dragonCage);
 
-  var now = Date.now();
+  // once position and scaled, set the animation to play
+  dragon.state.setAnimation(0, "big_win_all", true);
 
-  // The emitter requires the elapsed
-  // number of seconds since the last update
-  emitter.update((now - elapsed) * 0.001);
-  elapsed = now;
+  app.start();
+}
 
-  // Should re-render the PIXI Stage
-  // renderer.render(stage);
-};
-
-// Start emitting
-emitter.emit = true;
-
-// Start the update
-update();
+app.ticker.add(function () {
+  // update the spine animation, only needed if dragon.autoupdate is set to false
+  dragon.update(0.01666666666667); // HARDCODED FRAMERATE!
+});

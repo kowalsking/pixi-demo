@@ -11,11 +11,18 @@ class Particle {
   }
 
   setup() {
-    this.canvas = document.querySelector("#stage");
+    this.setupCanvas();
+    this.clickHandler();
+  }
+
+  setupCanvas() {
+    this.canvas = new PIXI.Application(window.innerWidth, window.innerHeight);
+    document.body.appendChild(this.canvas.view);
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
+
     const rendererOptions = {
-      view: this.canvas,
+      view: this.canvas.view,
     };
 
     this.stage = new PIXI.Container();
@@ -25,18 +32,36 @@ class Particle {
       this.canvas.height,
       rendererOptions
     );
+  }
 
-    this.clickHandler();
+  setupSpine(loader, res) {
+    this.bigwin = new PIXI.spine.Spine(res.bigwin.spineData);
+    this.bigwin.skeleton.setToSetupPose();
+    this.bigwin.autoUpdate = false;
+
+    this.bigwinContainer = new PIXI.Container();
+    this.bigwinContainer.addChild(this.bigwin);
+
+    this.localRect = this.bigwin.getLocalBounds();
+    this.bigwin.position.set(-this.localRect.x, -this.localRect.y);
+
+    this.bigwinContainer.scale.set(1);
+    this.bigwinContainer.position.set(
+      window.innerWidth * 0.5,
+      window.innerHeight * 0.5
+    );
+
+    this.stage.addChild(this.bigwinContainer);
+
+    this.bigwin.state.setAnimation(0, "big_win_all", true);
   }
 
   update() {
     window.requestAnimationFrame.bind(window, this.update.bind(this))();
     const framerate = document.getElementById("framerate");
     const now = Date.now();
-
-    if (this.emitter) {
-      this.emitter.update((now - this.elapsed) * 0.001);
-    }
+    this.bigwin.update((now - this.elapsed) * 0.001);
+    this.emitter.update((now - this.elapsed) * 0.001);
 
     framerate.innerHTML = (1000 / (now - this.elapsed)).toFixed(2);
 
@@ -49,13 +74,14 @@ class Particle {
     const urls = [this.imagePaths.spritesheet];
     urls.push("images/bc.png");
     const loader = PIXI.loader;
+    loader.add("bigwin", "bigwin/big_win_animation.json");
     urls.forEach((url, idx) => {
       loader.add(`img${idx}`, url);
     });
 
-    loader.load(() => {
+    loader.load((loader, res) => {
+      this.setupSpine(loader, res);
       const art = this.imagePaths.art;
-      this.setupBG();
       let emitterContainer;
       if (this.useParticleContainer) {
         emitterContainer = new PIXI.ParticleContainer();
@@ -90,7 +116,7 @@ class Particle {
   }
 
   clickHandler() {
-    this.canvas.addEventListener("mouseup", (e) => {
+    this.canvas.view.addEventListener("mouseup", (e) => {
       if (!emitter) return;
       this.emitter.emit = true;
       this.emitter.resetPositionTracking();
