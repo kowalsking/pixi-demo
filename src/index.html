@@ -5,18 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Animated Coins</title>
     <meta name="description" content="Animated coins" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css" />
     <!-- Required dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.8/pixi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi-particles-latest@3.2.0/dist/pixi-particles.min.js"></script>
-    <script src="pixi-spine.js"></script>
+    <script src="js/pixi-spine.js"></script>
 
     <!-- Example scaffolding -->
-    <script src="Controller.js"></script>
   </head>
   <body>
-    <div id="framerate"></div>
-    <div id="instructions">Click Anywhere</div>
+    <div id="main">
+      <span class="openSidebar"></span>
 
-    <script src="index.js"></script>
+      <div id="sidebar">
+        <a href="#" class="closeSidebar">&times;</a>
+        <div class="container">
+          <div id="framerate"></div>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
+            molestiae fugiat, deserunt eius ea non magnam doloribus, sit
+            deleniti debitis eos sint dolorem minima reprehenderit maxime! Magni
+            aliquam maiores, voluptas molestiae eveniet sed voluptates provident
+            ad magnam dicta dolorem minus alias doloremque natus, ratione
+            molestias sit deleniti odit fugiat excepturi.
+          </p>
+          <p>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
+            molestiae fugiat, deserunt eius ea non magnam doloribus, sit
+            deleniti debitis eos sint dolorem minima reprehenderit maxime! Magni
+            aliquam maiores, voluptas molestiae eveniet sed voluptates provident
+            ad magnam dicta dolorem minus alias doloremque natus, ratione
+            molestias sit deleniti odit fugiat excepturi.
+          </p>
+        </div>
+      </div>
+      <div id="canvas"></div>
+    </div>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

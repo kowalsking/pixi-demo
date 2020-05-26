@@ -11,7 +11,7 @@ class Controller {
   setup() {
     this.elapsed = Date.now();
     this.setupCanvas();
-    this.clickHandler();
+    this.eventsHandler();
     this.preload();
   }
 
@@ -21,8 +21,9 @@ class Controller {
   }
 
   createCanvas() {
-    this.app = new PIXI.Application();
-    document.body.appendChild(this.app.view);
+    this.canvas = document.querySelector("#canvas");
+    this.app = new PIXI.Application({ width: this.width, height: this.height });
+    this.canvas.append(this.app.view);
     this.app.width = this.width;
     this.app.height = this.height;
   }
@@ -82,7 +83,11 @@ class Controller {
 
     this.stage.addChild(emitterContainer);
 
-    this.emitter = new PIXI.particles.Emitter(emitterContainer, art, config);
+    this.emitter = new PIXI.particles.Emitter(
+      emitterContainer,
+      art,
+      this.config
+    );
     this.emitter.particleConstructor = PIXI.particles.AnimatedParticle;
     this.emitter.updateOwnerPos(this.width / 2, this.height / 2);
   }
@@ -104,12 +109,29 @@ class Controller {
     this.renderer.render(this.stage);
   }
 
-  clickHandler() {
+  eventsHandler() {
     this.app.view.addEventListener("mouseup", (e) => {
       if (!this.emitter) return;
       this.emitter.emit = true;
       this.emitter.resetPositionTracking();
       this.emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
     });
+
+    const coeff = 1920 / 1080;
+    const openSidebar = document.querySelector(".openSidebar");
+    const closeSidebar = document.querySelector(".closeSidebar");
+
+    openSidebar.addEventListener("click", (e) => {
+      this.app.renderer.resize(
+        this.app.width - 500,
+        (this.width - 500) / coeff
+      );
+    });
+
+    closeSidebar.addEventListener("click", (e) => {
+      this.app.renderer.resize(this.width, this.height);
+    });
   }
 }
+
+export default Controller;
