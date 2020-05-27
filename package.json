@@ -16,7 +16,7 @@
     "html-webpack-plugin": "^4.0.3",
     "pixi-ease": "^2.4.2",
     "pixi-particles": "^4.2.1",
-    "pixi.js": "^5.2.1"
+    "pixi.js": "^4.5.5"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.1.1",

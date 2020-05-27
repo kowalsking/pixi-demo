@@ -1,3 +1,5 @@
+import { bigwinList } from "./js/config.js";
+
 class Controller {
   constructor(imagePaths, config, type) {
     this.imagePaths = imagePaths;
@@ -36,45 +38,56 @@ class Controller {
   }
 
   preload() {
-    const loader = PIXI.loader;
-    this.addToLoader(loader);
+    this.loader = PIXI.loader;
+    this.addToLoader(this.loader);
 
-    loader.load((_, res) => {
+    this.loader.load((_, res) => {
       this.onAssetsLoaded(_, res);
     });
   }
 
   addToLoader(loader) {
     const urls = [this.imagePaths.spritesheet];
-    loader.add("bigwin", "bigwin/big_win_animation.json");
+
+    Object.keys(bigwinList).forEach((bw, idx) => {
+      loader.add(`${bw}`, bigwinList[bw]);
+    });
+
     urls.forEach((url, idx) => {
       loader.add(`img${idx}`, url);
     });
   }
 
   onAssetsLoaded(_, res) {
-    this.setupSpine(_, res);
+    this.setupSpine(_, res, "MMA");
     this.setupParticle();
+    this.createSelectsAnimations("MMA");
 
     this.update();
   }
 
-  setupSpine(_, res) {
-    this.bigwin = new PIXI.spine.Spine(res.bigwin.spineData);
+  setupSpine(_, res, name, animation = "big_win_all") {
+    this.bigwin = new PIXI.spine.Spine(res[name].spineData);
     this.bigwin.skeleton.setToSetupPose();
     this.bigwin.autoUpdate = false;
+    console.log(this.bigwin.state);
 
-    const bigwinContainer = new PIXI.Container();
-    bigwinContainer.addChild(this.bigwin);
+    if (this.bigwinContainer) {
+      this.bigwinContainer.removeChildren();
+    } else {
+      this.bigwinContainer = new PIXI.Container();
+    }
+    this.bigwin.state.onEvent = function (i, event) {
+      console.log("event fired!", i, event.data.name);
+    };
 
-    this.localRect = this.bigwin.getLocalBounds();
-    this.bigwin.position.set(-this.localRect.x, -this.localRect.y);
+    this.bigwinContainer.addChild(this.bigwin);
 
-    bigwinContainer.scale.set(1);
-    bigwinContainer.position.set(this.width / 2, this.height / 2);
+    this.bigwinContainer.scale.set(1);
+    this.bigwinContainer.position.set(this.width / 2, this.height / 2);
 
-    this.stage.addChild(bigwinContainer);
-    this.bigwin.state.setAnimation(0, "big_win_all", true);
+    this.stage.addChild(this.bigwinContainer);
+    this.bigwin.state.setAnimation(0, animation, true);
   }
 
   setupParticle() {
@@ -90,6 +103,17 @@ class Controller {
     );
     this.emitter.particleConstructor = PIXI.particles.AnimatedParticle;
     this.emitter.updateOwnerPos(this.width / 2, this.height / 2);
+  }
+
+  createSelectsAnimations(name) {
+    const animations = document.querySelector("#animation");
+    animations.textContent = "";
+    Object.keys(this.loader.resources[name].data.animations).forEach((anim) => {
+      const option = document.createElement("option");
+      option.textContent = anim;
+      option.value = anim;
+      return animations.append(option);
+    });
   }
 
   update() {
@@ -110,16 +134,19 @@ class Controller {
   }
 
   eventsHandler() {
-    this.app.view.addEventListener("mouseup", (e) => {
-      if (!this.emitter) return;
-      this.emitter.emit = true;
-      this.emitter.resetPositionTracking();
-      this.emitter.updateOwnerPos(e.offsetX || e.layerX, e.offsetY || e.layerY);
-    });
-
     const coeff = 1920 / 1080;
     const openSidebar = document.querySelector(".openSidebar");
     const closeSidebar = document.querySelector(".closeSidebar");
+    const bigwin = document.querySelector("#bigwin");
+    const animations = document.querySelector("#animation");
+
+    // coins explosion
+    this.app.renderer.plugins.interaction.on("pointerdown", (e) => {
+      if (!this.emitter) return;
+      this.emitter.emit = true;
+      this.emitter.resetPositionTracking();
+      this.emitter.updateOwnerPos(e.data.global.x, e.data.global.y);
+    });
 
     openSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(
@@ -130,6 +157,22 @@ class Controller {
 
     closeSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(this.width, this.height);
+    });
+
+    bigwin.addEventListener("change", (e) => {
+      this.setupSpine(null, this.loader.resources, e.target.value);
+      this.setupParticle();
+      this.createSelectsAnimations(e.target.value);
+    });
+
+    animations.addEventListener("change", (e) => {
+      this.setupSpine(
+        null,
+        this.loader.resources,
+        bigwin.value,
+        e.target.value
+      );
+      this.setupParticle();
     });
   }
 }

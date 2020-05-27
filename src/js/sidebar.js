@@ -1,7 +1,10 @@
+import { bigwinList } from "./config.js";
+
 const sidebar = document.querySelector("#sidebar");
 const main = document.querySelector("#main");
 const openSidebar = document.querySelector(".openSidebar");
 const closeSidebar = document.querySelector(".closeSidebar");
+const bigwin = document.querySelector("#bigwin");
 
 export function openNav() {
   sidebar.style.width = "500px";
@@ -27,4 +30,12 @@ document.addEventListener("click", (e) => {
   } else if (e.target === closeSidebar) {
     closeNav();
   }
+});
+console.log(1);
+
+Object.keys(bigwinList).map((bw) => {
+  const option = document.createElement("option");
+  option.textContent = bw;
+  option.value = bw;
+  return bigwin.append(option);
 });

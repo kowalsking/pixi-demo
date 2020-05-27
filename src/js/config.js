@@ -136,15 +136,10 @@ export const particleConfig = {
   spawnType: "point",
 };
 
-// const canvas = document.querySelector("#canvas");
-// const coeff = 1920 / 1080;
-// console.log("f", canvas.style.width);
-
-// export const resizeConfig = {
-//   get width() {
-//     return canvas.width;
-//   },
-//   get height() {
-//     return this.width / coeff;
-//   },
-// };
+export const bigwinList = {
+  MMA: "bigwin/MMA/big_win_animation.json",
+  dancing_lantern: "bigwin/291_Dancing Lanterns_BigWin.svn/big_win.json",
+  fruit_cash: "bigwin/297_FruitCashHoldn'Link_BigWin/big_win.json",
+  book_of_nile: "bigwin/340_BookOfNileLostChapter/big_win.json",
+  lotus_fortune: "bigwin/352_LotusFortune/big_win.json",
+};

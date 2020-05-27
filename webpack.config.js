@@ -24,12 +24,6 @@ module.exports = {
   mode: "development",
 
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: "src/",
-        to: "assets",
-      },
-    ]),
     new HtmlWebpackPlugin({
       template: "src/index.html",
     }),

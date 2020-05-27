@@ -1,0 +1,264 @@
+
+big_win.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+WIN
+  rotate: false
+  xy: 920, 1672
+  size: 1072, 372
+  orig: 1072, 372
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 4, 1128
+  size: 912, 916
+  orig: 912, 916
+  offset: 0, 0
+  index: -1
+boom_light_00
+  rotate: false
+  xy: 4, 764
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_01
+  rotate: false
+  xy: 920, 1308
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_02
+  rotate: false
+  xy: 1484, 1308
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_03
+  rotate: false
+  xy: 4, 400
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_04
+  rotate: false
+  xy: 4, 36
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_05
+  rotate: false
+  xy: 920, 944
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_06
+  rotate: false
+  xy: 1484, 944
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_07
+  rotate: false
+  xy: 568, 580
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_08
+  rotate: false
+  xy: 568, 216
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_09
+  rotate: false
+  xy: 1132, 580
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_10
+  rotate: false
+  xy: 1132, 216
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+coins
+  rotate: false
+  xy: 4, 4
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+counter
+  rotate: false
+  xy: 1996, 1890
+  size: 2, 2
+  orig: 2, 2
+  offset: 0, 0
+  index: -1
+gold element_up
+  rotate: false
+  xy: 568, 160
+  size: 620, 52
+  orig: 620, 52
+  offset: 0, 0
+  index: -1
+l_lower_ring_01
+  rotate: false
+  xy: 1996, 1956
+  size: 44, 88
+  orig: 44, 88
+  offset: 0, 0
+  index: -1
+l_lower_ring_02
+  rotate: false
+  xy: 1720, 896
+  size: 28, 44
+  orig: 28, 44
+  offset: 0, 0
+  index: -1
+l_lower_ring_sdw
+  rotate: false
+  xy: 1192, 164
+  size: 36, 48
+  orig: 36, 48
+  offset: 0, 0
+  index: -1
+l_middle_stick
+  rotate: false
+  xy: 568, 76
+  size: 20, 80
+  orig: 20, 80
+  offset: 0, 0
+  index: -1
+l_upper_ring_01
+  rotate: false
+  xy: 1996, 1896
+  size: 32, 56
+  orig: 32, 56
+  offset: 0, 0
+  index: -1
+l_upper_ring_02
+  rotate: false
+  xy: 1696, 820
+  size: 20, 32
+  orig: 20, 32
+  offset: 0, 0
+  index: -1
+l_upper_ring_sdw
+  rotate: false
+  xy: 4, 12
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+mask
+  rotate: false
+  xy: 12, 4
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+r_lower_ring_01
+  rotate: false
+  xy: 568, 1040
+  size: 44, 84
+  orig: 44, 84
+  offset: 0, 0
+  index: -1
+r_lower_ring_02
+  rotate: false
+  xy: 568, 944
+  size: 24, 40
+  orig: 24, 40
+  offset: 0, 0
+  index: -1
+r_lower_ring_sdw
+  rotate: false
+  xy: 568, 988
+  size: 36, 48
+  orig: 36, 48
+  offset: 0, 0
+  index: -1
+r_middle_stick
+  rotate: false
+  xy: 1696, 856
+  size: 20, 84
+  orig: 20, 84
+  offset: 0, 0
+  index: -1
+r_upper_ring_01
+  rotate: false
+  xy: 616, 1072
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+r_upper_ring_02
+  rotate: false
+  xy: 568, 40
+  size: 20, 32
+  orig: 20, 32
+  offset: 0, 0
+  index: -1
+r_upper_ring_sdw
+  rotate: false
+  xy: 592, 136
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+
+big_win2.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+boom_light_11
+  rotate: false
+  xy: 4, 368
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_12
+  rotate: false
+  xy: 4, 4
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_13
+  rotate: false
+  xy: 568, 368
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+boom_light_14
+  rotate: false
+  xy: 568, 4
+  size: 560, 360
+  orig: 560, 360
+  offset: 0, 0
+  index: -1
+glow
+  rotate: false
+  xy: 1132, 380
+  size: 352, 348
+  orig: 352, 348
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,301 @@
+
+big_win.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+All_Glow
+  rotate: false
+  xy: 4, 44
+  size: 625, 625
+  orig: 625, 625
+  offset: 0, 0
+  index: -1
+BG_1
+  rotate: false
+  xy: 4, 673
+  size: 1977, 1368
+  orig: 1977, 1368
+  offset: 0, 0
+  index: -1
+Cloud_03_Light
+  rotate: true
+  xy: 1739, 23
+  size: 324, 240
+  orig: 324, 240
+  offset: 0, 0
+  index: -1
+Counter_over_glow
+  rotate: true
+  xy: 4, 26
+  size: 14, 5
+  orig: 14, 5
+  offset: 0, 0
+  index: -1
+Groupe of clouds_01
+  rotate: false
+  xy: 864, 351
+  size: 1145, 318
+  orig: 1145, 318
+  offset: 0, 0
+  index: -1
+bg_fade
+  rotate: true
+  xy: 4, 15
+  size: 7, 4
+  orig: 7, 4
+  offset: 0, 0
+  index: -1
+cloud_01
+  rotate: true
+  xy: 633, 53
+  size: 616, 227
+  orig: 616, 227
+  offset: 0, 0
+  index: -1
+coins
+  rotate: false
+  xy: 4, 7
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+counter
+  rotate: false
+  xy: 4, 7
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+sparkle_05
+  rotate: false
+  xy: 864, 4
+  size: 871, 343
+  orig: 871, 343
+  offset: 0, 0
+  index: -1
+
+big_win2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG_1_00000
+  rotate: false
+  xy: 4, 675
+  size: 1977, 1368
+  orig: 1977, 1368
+  offset: 0, 0
+  index: -1
+Cloud_02_Light
+  rotate: true
+  xy: 1711, 41
+  size: 391, 321
+  orig: 391, 321
+  offset: 0, 0
+  index: -1
+Cloud_03
+  rotate: false
+  xy: 1285, 436
+  size: 715, 235
+  orig: 715, 235
+  offset: 0, 0
+  index: -1
+Groupe of clouds_04
+  rotate: false
+  xy: 1285, 105
+  size: 422, 327
+  orig: 422, 327
+  offset: 0, 0
+  index: -1
+Pyramid
+  rotate: false
+  xy: 4, 62
+  size: 1277, 609
+  orig: 1277, 609
+  offset: 0, 0
+  index: -1
+sparkle_01
+  rotate: false
+  xy: 1285, 4
+  size: 244, 97
+  orig: 244, 97
+  offset: 0, 0
+  index: -1
+
+big_win3.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG_light5
+  rotate: false
+  xy: 4, 4
+  size: 1615, 1118
+  orig: 1615, 1118
+  offset: 0, 0
+  index: -1
+Basement_Cloud_00000
+  rotate: false
+  xy: 4, 1563
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Basement_Cloud_00010
+  rotate: false
+  xy: 4, 1126
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Groupe of clouds_02
+  rotate: true
+  xy: 1623, 8
+  size: 1114, 421
+  orig: 1114, 421
+  offset: 0, 0
+  index: -1
+
+big_win4.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG_light3
+  rotate: true
+  xy: 1626, 108
+  size: 1005, 334
+  orig: 1005, 334
+  offset: 0, 0
+  index: -1
+Basement_Cloud_00020
+  rotate: false
+  xy: 4, 1554
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Basement_Cloud_00030
+  rotate: false
+  xy: 4, 1117
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Rays1
+  rotate: false
+  xy: 4, 4
+  size: 1618, 1109
+  orig: 1618, 1109
+  offset: 0, 0
+  index: -1
+
+big_win5.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG_light1
+  rotate: true
+  xy: 4, 46
+  size: 1536, 711
+  orig: 1536, 711
+  offset: 0, 0
+  index: -1
+BG_light4
+  rotate: true
+  xy: 719, 81
+  size: 1501, 537
+  orig: 1501, 537
+  offset: 0, 0
+  index: -1
+Basement_Cloud_00040
+  rotate: false
+  xy: 4, 1586
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Cloud_02
+  rotate: false
+  xy: 1260, 4
+  size: 432, 179
+  orig: 432, 179
+  offset: 0, 0
+  index: -1
+Pyramid_light
+  rotate: true
+  xy: 1260, 408
+  size: 1174, 730
+  orig: 1174, 730
+  offset: 0, 0
+  index: -1
+sparkle_02
+  rotate: false
+  xy: 1260, 187
+  size: 217, 217
+  orig: 217, 217
+  offset: 0, 0
+  index: -1
+sparkle_03
+  rotate: false
+  xy: 1260, 187
+  size: 217, 217
+  orig: 217, 217
+  offset: 0, 0
+  index: -1
+sparkle_04
+  rotate: false
+  xy: 1260, 187
+  size: 217, 217
+  orig: 217, 217
+  offset: 0, 0
+  index: -1
+
+big_win6.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Basement_Cloud_00050
+  rotate: false
+  xy: 4, 276
+  size: 1879, 433
+  orig: 1879, 433
+  offset: 0, 0
+  index: -1
+Big_Win_letters
+  rotate: false
+  xy: 4, 4
+  size: 1027, 268
+  orig: 1027, 268
+  offset: 0, 0
+  index: -1
+Rays2
+  rotate: false
+  xy: 4, 713
+  size: 1614, 1188
+  orig: 1614, 1188
+  offset: 0, 0
+  index: -1
+
+big_win7.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BG_light2
+  rotate: false
+  xy: 4, 4
+  size: 794, 805
+  orig: 794, 805
+  offset: 0, 0
+  index: -1
+Groupe of clouds_03
+  rotate: false
+  xy: 802, 373
+  size: 571, 436
+  orig: 571, 436
+  offset: 0, 0
+  index: -1

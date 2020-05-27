@@ -1,0 +1,82 @@
+
+big_win.png
+size: 1824,716
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg_shine_1
+  rotate: false
+  xy: 1044, 4
+  size: 776, 708
+  orig: 774, 707
+  offset: 0, -1
+  index: -1
+bg_shine_2
+  rotate: false
+  xy: 4, 352
+  size: 484, 272
+  orig: 481, 271
+  offset: 0, -1
+  index: -1
+BIG_WIN1 copy
+  rotate: false
+  xy: 4, 4
+  size: 1032, 340
+  orig: 1032, 338
+  offset: 0, -2
+  index: -1
+counter
+  rotate: false
+  xy: 496, 420
+  size: 4, 4
+  orig: 4, 1
+  offset: 0, -3
+  index: -1
+mask
+  rotate: false
+  xy: 496, 432
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+particle_ray
+  rotate: false
+  xy: 496, 352
+  size: 236, 60
+  orig: 233, 57
+  offset: 0, -3
+  index: -1
+
+big_win_jpeg.jpg
+size: 2032,740
+format: RGB888
+filter: Linear,Linear
+repeat: none
+bg_shine_1_add
+  rotate: false
+  xy: 1300, 464
+  size: 384, 272
+  orig: 382, 271
+  offset: 0, -1
+  index: -1
+bg_shine_2_add
+  rotate: false
+  xy: 4, 4
+  size: 1288, 724
+  orig: 1287, 722
+  offset: 0, -2
+  index: -1
+blink
+  rotate: false
+  xy: 1692, 464
+  size: 260, 116
+  orig: 260, 115
+  offset: 0, -1
+  index: -1
+Shine_up
+  rotate: false
+  xy: 1300, 4
+  size: 728, 452
+  orig: 727, 450
+  offset: 0, -2
+  index: -1
