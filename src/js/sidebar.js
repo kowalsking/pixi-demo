@@ -35,7 +35,7 @@ console.log(1);
 
 Object.keys(bigwinList).map((bw) => {
   const option = document.createElement("option");
-  option.textContent = bw;
-  option.value = bw;
+  option.textContent = `${bigwinList[bw].code} ${bigwinList[bw].name}`;
+  option.value = `${bw}`;
   return bigwin.append(option);
 });

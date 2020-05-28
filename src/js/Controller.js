@@ -1,10 +1,11 @@
-import { bigwinList } from "./js/config.js";
+import { bigwinList, animationSetup } from "./config.js";
 
 class Controller {
   constructor(imagePaths, config, type) {
     this.imagePaths = imagePaths;
     this.config = config;
-    this.type = type;
+    this.type = animationSetup.type;
+    this.name = animationSetup.name;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.setup();
@@ -50,7 +51,7 @@ class Controller {
     const urls = [this.imagePaths.spritesheet];
 
     Object.keys(bigwinList).forEach((bw, idx) => {
-      loader.add(`${bw}`, bigwinList[bw]);
+      loader.add(`${bw}`, bigwinList[bw].path);
     });
 
     urls.forEach((url, idx) => {
@@ -59,15 +60,14 @@ class Controller {
   }
 
   onAssetsLoaded(_, res) {
-    this.setupSpine(_, res, "MMA");
+    this.setupSpine(_, res);
     this.setupParticle();
-    this.createSelectsAnimations("MMA");
 
     this.update();
   }
 
-  setupSpine(_, res, name, animation = "big_win_all") {
-    this.bigwin = new PIXI.spine.Spine(res[name].spineData);
+  setupSpine(_, res) {
+    this.bigwin = new PIXI.spine.Spine(res[this.name].spineData);
     this.bigwin.skeleton.setToSetupPose();
     this.bigwin.autoUpdate = false;
     console.log(this.bigwin.state);
@@ -77,9 +77,6 @@ class Controller {
     } else {
       this.bigwinContainer = new PIXI.Container();
     }
-    this.bigwin.state.onEvent = function (i, event) {
-      console.log("event fired!", i, event.data.name);
-    };
 
     this.bigwinContainer.addChild(this.bigwin);
 
@@ -87,7 +84,83 @@ class Controller {
     this.bigwinContainer.position.set(this.width / 2, this.height / 2);
 
     this.stage.addChild(this.bigwinContainer);
-    this.bigwin.state.setAnimation(0, animation, true);
+
+    this.bigwin.state.setAnimation(0, bigwinList[this.name].animation, true);
+
+    this.countLoops();
+    this.handleBigwinEvents();
+  }
+
+  handleBigwinEvents() {
+    this.bigwin.state.onEvent = (i, event) => {
+      if (event.data.name === "startLoop") {
+        if (this.type === "stretch") {
+          this.stretchAnimation();
+        } else if (this.type === "loop" && this.loopFlag === undefined) {
+          console.log("start", this.bigwin.state.tracks[0].trackTime);
+          this.loopAnimation();
+        }
+      }
+      if (event.data.name === "endLoop") {
+        if (this.type === "stretch") {
+          this.bigwin.state.timeScale = 1;
+        } else if (this.type === "loop") {
+          console.log("end", this.bigwin.state.tracks[0].trackTime);
+          if (--this.loops === 0) {
+            this.countLoops();
+            this.bigwin.state.timeScale = 1;
+            return;
+          } else {
+            const jumpTrackTime =
+              (bigwinList[this.name].loopStartFrame * 30) / 1000; //start loop time
+            this.bigwin.state.tracks[0].trackTime = jumpTrackTime;
+          }
+        }
+      }
+    };
+  }
+
+  stretchAnimation() {
+    // const animationStart = this.bigwin.state.tracks[0].trackTime * 1000;
+    const duration = animationSetup.duration;
+    const loopStartFrame = bigwinList[this.name].loopStartFrame;
+    const loopEndFrame = bigwinList[this.name].loopEndFrame;
+    const animationStart = (loopStartFrame / 30) * 1000;
+    const animationEnd = (loopEndFrame / 30) * 1000;
+    const timeScale =
+      (animationEnd - animationStart) / (duration - animationStart);
+    this.bigwin.state.timeScale = Math.abs(timeScale);
+  }
+
+  loopAnimation() {
+    this.loopFlag = true;
+    const loopStartFrame = bigwinList[this.name].loopStartFrame;
+    const loopEndFrame = bigwinList[this.name].loopEndFrame;
+    const framesCount = loopEndFrame - loopStartFrame;
+    const loopDurationInMs = framesCount * 30;
+    const duration = animationSetup.duration;
+
+    const moreLoopOverhead = Math.abs(duration - loopDurationInMs * this.loops);
+    const lessLoopOverhead = Math.abs(
+      duration - loopDurationInMs * (this.loops - 1)
+    );
+
+    if (moreLoopOverhead >= lessLoopOverhead && this.loops > 1) this.loops--;
+
+    const loopSpeed = duration / (loopDurationInMs * this.loops);
+    this.bigwin.state.timeScale = loopSpeed;
+  }
+
+  countLoops() {
+    const loopStartFrame = bigwinList[this.name].loopStartFrame;
+    const loopEndFrame = bigwinList[this.name].loopEndFrame;
+    const framesCount = loopEndFrame - loopStartFrame;
+    const loopDurationInMs = framesCount * 30;
+    const duration = animationSetup.duration;
+
+    if (duration >= loopDurationInMs) {
+      this.loops = Math.round(duration / loopDurationInMs);
+    }
   }
 
   setupParticle() {
@@ -103,17 +176,6 @@ class Controller {
     );
     this.emitter.particleConstructor = PIXI.particles.AnimatedParticle;
     this.emitter.updateOwnerPos(this.width / 2, this.height / 2);
-  }
-
-  createSelectsAnimations(name) {
-    const animations = document.querySelector("#animation");
-    animations.textContent = "";
-    Object.keys(this.loader.resources[name].data.animations).forEach((anim) => {
-      const option = document.createElement("option");
-      option.textContent = anim;
-      option.value = anim;
-      return animations.append(option);
-    });
   }
 
   update() {
@@ -149,10 +211,9 @@ class Controller {
     });
 
     openSidebar.addEventListener("click", (e) => {
-      this.app.renderer.resize(
-        this.app.width - 500,
-        (this.width - 500) / coeff
-      );
+      this.app.renderer.resize(this.width - 500, (this.width - 500) / coeff);
+      this.bigwinContainer.scale.x = (this.width - 500) / this.width;
+      this.bigwinContainer.scale.y = (this.width - 500) / coeff / this.height;
     });
 
     closeSidebar.addEventListener("click", (e) => {
@@ -160,18 +221,8 @@ class Controller {
     });
 
     bigwin.addEventListener("change", (e) => {
-      this.setupSpine(null, this.loader.resources, e.target.value);
-      this.setupParticle();
-      this.createSelectsAnimations(e.target.value);
-    });
-
-    animations.addEventListener("change", (e) => {
-      this.setupSpine(
-        null,
-        this.loader.resources,
-        bigwin.value,
-        e.target.value
-      );
+      this.name = e.target.value;
+      this.setupSpine(null, this.loader.resources);
       this.setupParticle();
     });
   }

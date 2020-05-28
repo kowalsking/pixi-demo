@@ -137,9 +137,43 @@ export const particleConfig = {
 };
 
 export const bigwinList = {
-  MMA: "bigwin/MMA/big_win_animation.json",
-  dancing_lantern: "bigwin/291_Dancing Lanterns_BigWin.svn/big_win.json",
-  fruit_cash: "bigwin/297_FruitCashHoldn'Link_BigWin/big_win.json",
-  book_of_nile: "bigwin/340_BookOfNileLostChapter/big_win.json",
-  lotus_fortune: "bigwin/352_LotusFortune/big_win.json",
+  MMA: {
+    name: "MMA",
+    code: 123,
+    path: "bigwin/MMA/big_win_animation.json",
+    animation: "big_win_all",
+    loopStartFrame: 28,
+    loopEndFrame: 80,
+  },
+  dancing_lantern: {
+    name: "Dancing Lantern",
+    code: 291,
+    path: "bigwin/291_Dancing Lanterns_BigWin.svn/big_win.json",
+    animation: "big_win_all",
+  },
+  fruit_cash: {
+    name: "Fruit Cash",
+    code: 297,
+    path: "bigwin/297_FruitCashHoldn'Link_BigWin/big_win.json",
+    animation: "big_win_all",
+  },
+  book_of_nile: {
+    name: "Book Of Nile",
+    code: 340,
+    path: "bigwin/340_BookOfNileLostChapter/big_win.json",
+    animation: "big_win_all",
+  },
+  lotus_fortune: {
+    name: "Lotus Fortune",
+    code: 352,
+    path: "bigwin/352_LotusFortune/big_win.json",
+    animation: "big_win_all",
+  },
+};
+
+export const animationSetup = {
+  name: "MMA",
+  type: "stretch", // stretch, loop
+  duration: 10000,
+  loops: 5,
 };
