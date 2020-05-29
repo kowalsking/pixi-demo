@@ -150,30 +150,37 @@ export const bigwinList = {
     code: 291,
     path: "bigwin/291_Dancing Lanterns_BigWin.svn/big_win.json",
     animation: "big_win_all",
+    loopStartFrame: 24,
+    loopEndFrame: 185,
   },
   fruit_cash: {
     name: "Fruit Cash",
     code: 297,
     path: "bigwin/297_FruitCashHoldn'Link_BigWin/big_win.json",
     animation: "big_win_all",
+    loopStartFrame: 23,
+    loopEndFrame: 237,
   },
   book_of_nile: {
     name: "Book Of Nile",
     code: 340,
     path: "bigwin/340_BookOfNileLostChapter/big_win.json",
     animation: "big_win_all",
+    loopStartFrame: 30,
+    loopEndFrame: 630,
   },
   lotus_fortune: {
     name: "Lotus Fortune",
     code: 352,
     path: "bigwin/352_LotusFortune/big_win.json",
     animation: "big_win_all",
+    loopStartFrame: 85,
+    loopEndFrame: 116,
   },
 };
 
 export const animationSetup = {
   name: "MMA",
   type: "stretch", // stretch, loop
-  duration: 10000,
-  loops: 5,
+  duration: 20000,
 };

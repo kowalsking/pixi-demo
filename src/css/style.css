@@ -67,3 +67,11 @@ body {
     font-size: 18px;
   }
 }
+
+.invalidJson {
+  color: red;
+}
+
+.error {
+  border: 2px solid red;
+}

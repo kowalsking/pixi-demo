@@ -7,10 +7,12 @@
     <meta name="description" content="Animated coins" />
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="js/prism/prism.css" />
     <!-- Required dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.8/pixi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi-particles-latest@3.2.0/dist/pixi-particles.min.js"></script>
     <script src="js/nge/pixi-spine.js"></script>
+    <script src="js/prism/prism.js"></script>
 
     <!-- Example scaffolding -->
   </head>
@@ -28,14 +30,18 @@
               <select name="bigwin" id="bigwin"></select>
             </div>
           </div>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cum
-            molestiae fugiat, deserunt eius ea non magnam doloribus, sit
-            deleniti debitis eos sint dolorem minima reprehenderit maxime! Magni
-            aliquam maiores, voluptas molestiae eveniet sed voluptates provident
-            ad magnam dicta dolorem minus alias doloremque natus, ratione
-            molestias sit deleniti odit fugiat excepturi.
-          </p>
+          <p class="invalidJson"></p>
+          <div>
+            <textarea id="jsonTextarea" cols="40" rows="10">
+{
+  "name": "MMA",
+  "type": "stretch",
+  "duration": 20000
+}
+            </textarea>
+
+            <button id="prettyBtn">Accept</button>
+          </div>
         </div>
       </div>
       <div id="canvas"></div>

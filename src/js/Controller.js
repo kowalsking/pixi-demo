@@ -1,19 +1,26 @@
-import { bigwinList, animationSetup } from "./config.js";
+import { bigwinList } from "./config.js";
 
 class Controller {
   constructor(imagePaths, config, type) {
     this.imagePaths = imagePaths;
     this.config = config;
-    this.type = animationSetup.type;
-    this.name = animationSetup.name;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.setup();
   }
 
+  animationSetup() {
+    const jsonTextarea = document.querySelector("#jsonTextarea");
+    this.animationConfig = JSON.parse(jsonTextarea.value);
+
+    this.type = this.animationConfig.type;
+    this.name = this.animationConfig.name;
+  }
+
   setup() {
     this.elapsed = Date.now();
     this.setupCanvas();
+    this.animationSetup();
     this.eventsHandler();
     this.preload();
   }
@@ -87,79 +94,69 @@ class Controller {
 
     this.bigwin.state.setAnimation(0, bigwinList[this.name].animation, true);
 
-    this.countLoops();
+    this.calculateSpeed();
     this.handleBigwinEvents();
   }
 
   handleBigwinEvents() {
+    console.log("type: ", this.animationConfig.type);
+    console.log("loops: ", this.loops);
+    console.log("speed: ", this.speed);
+    console.log(
+      "duration: ",
+      this.animationConfig.duration / 1000 + " seconds"
+    );
+
     this.bigwin.state.onEvent = (i, event) => {
-      if (event.data.name === "startLoop") {
-        if (this.type === "stretch") {
-          this.stretchAnimation();
-        } else if (this.type === "loop" && this.loopFlag === undefined) {
-          console.log("start", this.bigwin.state.tracks[0].trackTime);
-          this.loopAnimation();
-        }
+      const start =
+        event.data.name === "startLoop" || event.data.name === "start";
+      const end = event.data.name === "endLoop" || event.data.name === "end";
+      if (start) {
+        this.startLoop();
       }
-      if (event.data.name === "endLoop") {
-        if (this.type === "stretch") {
-          this.bigwin.state.timeScale = 1;
-        } else if (this.type === "loop") {
-          console.log("end", this.bigwin.state.tracks[0].trackTime);
-          if (--this.loops === 0) {
-            this.countLoops();
-            this.bigwin.state.timeScale = 1;
-            return;
-          } else {
-            const jumpTrackTime =
-              (bigwinList[this.name].loopStartFrame * 30) / 1000; //start loop time
-            this.bigwin.state.tracks[0].trackTime = jumpTrackTime;
-          }
-        }
+      if (end) {
+        this.endLoop();
       }
     };
   }
 
-  stretchAnimation() {
-    // const animationStart = this.bigwin.state.tracks[0].trackTime * 1000;
-    const duration = animationSetup.duration;
+  calculateSpeed() {
+    const duration = this.animationConfig.duration;
     const loopStartFrame = bigwinList[this.name].loopStartFrame;
     const loopEndFrame = bigwinList[this.name].loopEndFrame;
     const animationStart = (loopStartFrame / 30) * 1000;
     const animationEnd = (loopEndFrame / 30) * 1000;
-    const timeScale =
-      (animationEnd - animationStart) / (duration - animationStart);
-    this.bigwin.state.timeScale = Math.abs(timeScale);
-  }
-
-  loopAnimation() {
-    this.loopFlag = true;
-    const loopStartFrame = bigwinList[this.name].loopStartFrame;
-    const loopEndFrame = bigwinList[this.name].loopEndFrame;
     const framesCount = loopEndFrame - loopStartFrame;
     const loopDurationInMs = framesCount * 30;
-    const duration = animationSetup.duration;
 
-    const moreLoopOverhead = Math.abs(duration - loopDurationInMs * this.loops);
-    const lessLoopOverhead = Math.abs(
-      duration - loopDurationInMs * (this.loops - 1)
-    );
-
-    if (moreLoopOverhead >= lessLoopOverhead && this.loops > 1) this.loops--;
-
-    const loopSpeed = duration / (loopDurationInMs * this.loops);
-    this.bigwin.state.timeScale = loopSpeed;
-  }
-
-  countLoops() {
-    const loopStartFrame = bigwinList[this.name].loopStartFrame;
-    const loopEndFrame = bigwinList[this.name].loopEndFrame;
-    const framesCount = loopEndFrame - loopStartFrame;
-    const loopDurationInMs = framesCount * 30;
-    const duration = animationSetup.duration;
-
-    if (duration >= loopDurationInMs) {
+    if (this.animationConfig.type === "stretch") {
+      return (this.speed = Math.abs(
+        (animationEnd - animationStart) / (duration - animationStart)
+      ));
+    } else if (this.animationConfig.type === "loop") {
       this.loops = Math.round(duration / loopDurationInMs);
+      if (this.loops === 0) this.loops = 1;
+      return (this.speed = duration / (loopDurationInMs * this.loops));
+    }
+  }
+
+  startLoop() {
+    return (this.bigwin.state.timeScale = this.speed);
+  }
+
+  endLoop() {
+    if (this.type === "stretch") {
+      this.bigwin.state.timeScale = 1;
+    } else if (this.type === "loop") {
+      if (--this.loops === 0) {
+        this.calculateSpeed();
+        this.bigwin.state.timeScale = 1;
+        return;
+      } else {
+        const jumpTrackTime =
+          (bigwinList[this.name].loopStartFrame * 30) / 1000; //start loop time
+        this.bigwin.state.tracks[0].trackTime = jumpTrackTime;
+      }
     }
   }
 
@@ -200,7 +197,9 @@ class Controller {
     const openSidebar = document.querySelector(".openSidebar");
     const closeSidebar = document.querySelector(".closeSidebar");
     const bigwin = document.querySelector("#bigwin");
-    const animations = document.querySelector("#animation");
+    const jsonTextarea = document.querySelector("#jsonTextarea");
+    const prettyBtn = document.querySelector("#prettyBtn");
+    const invalidJson = document.querySelector(".invalidJson");
 
     // coins explosion
     this.app.renderer.plugins.interaction.on("pointerdown", (e) => {
@@ -218,12 +217,32 @@ class Controller {
 
     closeSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(this.width, this.height);
+      this.bigwinContainer.scale.x = 1;
+      this.bigwinContainer.scale.y = 1;
     });
 
     bigwin.addEventListener("change", (e) => {
-      this.name = e.target.value;
+      this.animationConfig.name = e.target.value;
+      jsonTextarea.value = JSON.stringify(this.animationConfig, undefined, 4);
+      this.animationSetup();
       this.setupSpine(null, this.loader.resources);
       this.setupParticle();
+    });
+
+    prettyBtn.addEventListener("click", (e) => {
+      try {
+        const obj = JSON.parse(jsonTextarea.value);
+        this.animationSetup();
+        jsonTextarea.classList.remove("error");
+        jsonTextarea.value = JSON.stringify(obj, undefined, 4);
+        invalidJson.textContent = "";
+        this.setupSpine(null, this.loader.resources);
+      } catch (e) {
+        invalidJson.textContent = e.message;
+        console.log(e);
+
+        jsonTextarea.classList.add("error");
+      }
     });
   }
 }

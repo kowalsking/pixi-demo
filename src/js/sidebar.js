@@ -5,6 +5,9 @@ const main = document.querySelector("#main");
 const openSidebar = document.querySelector(".openSidebar");
 const closeSidebar = document.querySelector(".closeSidebar");
 const bigwin = document.querySelector("#bigwin");
+const jsonTextarea = document.querySelector("#jsonTextarea");
+const prettyBtn = document.querySelector("#prettyBtn");
+const invalidJson = document.querySelector(".invalidJson");
 
 export function openNav() {
   sidebar.style.width = "500px";
@@ -31,7 +34,6 @@ document.addEventListener("click", (e) => {
     closeNav();
   }
 });
-console.log(1);
 
 Object.keys(bigwinList).map((bw) => {
   const option = document.createElement("option");
