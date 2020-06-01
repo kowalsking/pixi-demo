@@ -1,36 +1,28 @@
 import { bigwinList } from "./config.js";
-
-const sidebar = document.querySelector("#sidebar");
-const main = document.querySelector("#main");
-const openSidebar = document.querySelector(".openSidebar");
-const closeSidebar = document.querySelector(".closeSidebar");
-const bigwin = document.querySelector("#bigwin");
-const jsonTextarea = document.querySelector("#jsonTextarea");
-const prettyBtn = document.querySelector("#prettyBtn");
-const invalidJson = document.querySelector(".invalidJson");
+import fields from "./fields.js";
 
 export function openNav() {
-  sidebar.style.width = "500px";
+  fields.sidebar.style.width = "500px";
   main.style.marginRight = "500px";
 }
 
 export function closeNav() {
-  sidebar.style.width = "0";
+  fields.sidebar.style.width = "0";
   main.style.marginRight = "0";
 }
 
 document.addEventListener("mouseover", (e) => {
-  openSidebar.style.opacity = 1;
+  fields.openSidebar.style.opacity = 1;
 });
 
 document.addEventListener("mouseout", (e) => {
-  openSidebar.style.opacity = 0;
+  fields.openSidebar.style.opacity = 0;
 });
 
 document.addEventListener("click", (e) => {
-  if (e.target === openSidebar) {
+  if (e.target === fields.openSidebar) {
     openNav();
-  } else if (e.target === closeSidebar) {
+  } else if (e.target === fields.closeSidebar) {
     closeNav();
   }
 });
@@ -39,5 +31,5 @@ Object.keys(bigwinList).map((bw) => {
   const option = document.createElement("option");
   option.textContent = `${bigwinList[bw].code} ${bigwinList[bw].name}`;
   option.value = `${bw}`;
-  return bigwin.append(option);
+  return fields.bigwin.append(option);
 });

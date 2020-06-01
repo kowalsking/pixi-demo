@@ -1,26 +1,28 @@
 import { bigwinList } from "./config.js";
+import fields from "./fields.js";
 
 class Controller {
-  constructor(imagePaths, config, type) {
+  constructor(imagePaths) {
     this.imagePaths = imagePaths;
-    this.config = config;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.setup();
   }
 
   animationSetup() {
-    const jsonTextarea = document.querySelector("#jsonTextarea");
-    this.animationConfig = JSON.parse(jsonTextarea.value);
+    this.animationConfig = JSON.parse(fields.spineTextarea.value);
 
     this.type = this.animationConfig.type;
     this.name = this.animationConfig.name;
   }
 
+  configSetup() {
+    this.config = JSON.parse(fields.emitterTextarea.value);
+  }
+
   setup() {
     this.elapsed = Date.now();
     this.setupCanvas();
-    this.animationSetup();
     this.eventsHandler();
     this.preload();
   }
@@ -47,23 +49,26 @@ class Controller {
 
   preload() {
     this.loader = PIXI.loader;
-    this.addToLoader(this.loader);
+    this.loadInitialFiles();
 
     this.loader.load((_, res) => {
       this.onAssetsLoaded(_, res);
     });
   }
 
-  addToLoader(loader) {
+  loadInitialFiles() {
     const urls = [this.imagePaths.spritesheet];
 
-    Object.keys(bigwinList).forEach((bw, idx) => {
-      loader.add(`${bw}`, bigwinList[bw].path);
-    });
+    console.log("urls", urls);
 
-    urls.forEach((url, idx) => {
-      loader.add(`img${idx}`, url);
+    Object.keys(bigwinList).forEach((bw) => {
+      this.loader.add(`${bw}`, bigwinList[bw].path);
     });
+    this.loader.add(`coin`, urls[0]);
+
+    // urls.forEach((url, idx) => {
+    //   loader.add(`img${idx}`, url);
+    // });
   }
 
   onAssetsLoaded(_, res) {
@@ -74,6 +79,7 @@ class Controller {
   }
 
   setupSpine(_, res) {
+    this.animationSetup();
     this.bigwin = new PIXI.spine.Spine(res[this.name].spineData);
     this.bigwin.skeleton.setToSetupPose();
     this.bigwin.autoUpdate = false;
@@ -102,10 +108,7 @@ class Controller {
     console.log("type: ", this.animationConfig.type);
     console.log("loops: ", this.loops);
     console.log("speed: ", this.speed);
-    console.log(
-      "duration: ",
-      this.animationConfig.duration / 1000 + " seconds"
-    );
+    console.log(`duration: ${this.animationConfig.duration / 1000} seconds`);
 
     this.bigwin.state.onEvent = (i, event) => {
       const start =
@@ -161,13 +164,17 @@ class Controller {
   }
 
   setupParticle() {
+    this.configSetup();
     const art = this.imagePaths.art;
-    const emitterContainer = new PIXI.Container();
-
-    this.stage.addChild(emitterContainer);
+    if (this.emitterContainer) {
+      this.emitterContainer.removeChildren();
+    } else {
+      this.emitterContainer = new PIXI.Container();
+    }
+    this.stage.addChild(this.emitterContainer);
 
     this.emitter = new PIXI.particles.Emitter(
-      emitterContainer,
+      this.emitterContainer,
       art,
       this.config
     );
@@ -178,7 +185,6 @@ class Controller {
   update() {
     window.requestAnimationFrame.bind(window, this.update.bind(this))();
 
-    const framerate = document.getElementById("framerate");
     const now = Date.now();
     const delta = now - this.elapsed;
     const frequency = delta * 0.001;
@@ -194,12 +200,6 @@ class Controller {
 
   eventsHandler() {
     const coeff = 1920 / 1080;
-    const openSidebar = document.querySelector(".openSidebar");
-    const closeSidebar = document.querySelector(".closeSidebar");
-    const bigwin = document.querySelector("#bigwin");
-    const jsonTextarea = document.querySelector("#jsonTextarea");
-    const prettyBtn = document.querySelector("#prettyBtn");
-    const invalidJson = document.querySelector(".invalidJson");
 
     // coins explosion
     this.app.renderer.plugins.interaction.on("pointerdown", (e) => {
@@ -209,41 +209,79 @@ class Controller {
       this.emitter.updateOwnerPos(e.data.global.x, e.data.global.y);
     });
 
-    openSidebar.addEventListener("click", (e) => {
+    fields.openSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(this.width - 500, (this.width - 500) / coeff);
-      this.bigwinContainer.scale.x = (this.width - 500) / this.width;
-      this.bigwinContainer.scale.y = (this.width - 500) / coeff / this.height;
+      this.stage.scale.x = (this.width - 500) / this.width;
+      this.stage.scale.y = (this.width - 500) / coeff / this.height;
     });
 
-    closeSidebar.addEventListener("click", (e) => {
+    fields.closeSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(this.width, this.height);
-      this.bigwinContainer.scale.x = 1;
-      this.bigwinContainer.scale.y = 1;
+      this.stage.scale.x = 1;
+      this.stage.scale.y = 1;
     });
 
     bigwin.addEventListener("change", (e) => {
       this.animationConfig.name = e.target.value;
-      jsonTextarea.value = JSON.stringify(this.animationConfig, undefined, 4);
-      this.animationSetup();
+      fields.spineTextarea.value = JSON.stringify(
+        this.animationConfig,
+        undefined,
+        4
+      );
       this.setupSpine(null, this.loader.resources);
       this.setupParticle();
     });
 
-    prettyBtn.addEventListener("click", (e) => {
-      try {
-        const obj = JSON.parse(jsonTextarea.value);
-        this.animationSetup();
-        jsonTextarea.classList.remove("error");
-        jsonTextarea.value = JSON.stringify(obj, undefined, 4);
-        invalidJson.textContent = "";
-        this.setupSpine(null, this.loader.resources);
-      } catch (e) {
-        invalidJson.textContent = e.message;
-        console.log(e);
+    fields.prettyBtn.addEventListener("click", (e) => {
+      this.handleTextarea(fields.spineTextarea);
+      this.handleTextarea(fields.emitterTextarea);
+      this.setupSpine(null, this.loader.resources);
+      console.log(this.loader.resources);
 
-        jsonTextarea.classList.add("error");
-      }
+      this.setupParticle();
     });
+
+    fields.file.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      console.log(file);
+      const reader = new FileReader();
+      const url = URL.createObjectURL(file);
+      const loader = PIXI.loader;
+      this.imagePaths.spritesheet = url;
+
+      reader.addEventListener("load", (e) => {
+        try {
+          const json = JSON.parse(reader.result);
+          loader.add(`img${Math.random()}`, url);
+          loader.load((_, res) => {
+            console.log(res);
+          });
+          this.upgradeTextures(json);
+        } catch (e) {
+          console.log(e);
+        }
+      });
+      reader.readAsText(file);
+    });
+  }
+
+  handleTextarea(textarea) {
+    try {
+      const obj = JSON.parse(textarea.value);
+      textarea.classList.remove("error");
+      textarea.value = JSON.stringify(obj, undefined, 4);
+      fields.invalidJson.textContent = "";
+    } catch (e) {
+      fields.invalidJson.textContent = e.message;
+      console.log(e);
+      textarea.classList.add("error");
+    }
+  }
+
+  upgradeTextures(json) {
+    this.imagePaths.art[0].textures = Object.keys(json.frames);
+    this.imagePaths.art[1].textures = Object.keys(json.frames).reverse();
+    console.log(this.imagePaths);
   }
 }
 
