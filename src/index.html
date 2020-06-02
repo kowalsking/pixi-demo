@@ -7,16 +7,15 @@
     <meta name="description" content="Animated coins" />
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="js/prism/prism.css" />
     <!-- Required dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.8.8/pixi.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pixi-particles-latest@3.2.0/dist/pixi-particles.min.js"></script>
     <script src="js/nge/pixi-spine.js"></script>
-    <script src="js/prism/prism.js"></script>
 
     <!-- Example scaffolding -->
   </head>
   <body>
+    <div class="loader"></div>
     <div id="main">
       <span class="openSidebar"></span>
 
@@ -24,24 +23,94 @@
         <a href="#" class="closeSidebar">&times;</a>
         <div class="container">
           <div id="framerate"></div>
+          <div>
+            <input type="file" name="file" id="file" />
+          </div>
           <div class="bigwin_setup">
             <div class="bigwin_wrapper">
               <h3>Select bigwin:</h3>
               <select name="bigwin" id="bigwin"></select>
             </div>
           </div>
-          <p class="invalidJson"></p>
           <div>
-            <textarea id="jsonTextarea" cols="40" rows="10">
+            <p class="invalidJson"></p>
+
+            <div class="config_header">Spine config:</div>
+            <textarea class="spineTextarea" cols="40" rows="6">
 {
   "name": "MMA",
   "type": "stretch",
   "duration": 20000
 }
             </textarea>
-
-            <button id="prettyBtn">Accept</button>
           </div>
+          <div>
+            <p class="invalidJson"></p>
+
+            <div class="config_header">Emmiter config:</div>
+            <textarea class="emitterTextarea" cols="40" rows="30">
+{
+  "alpha": {
+      "start": 1,
+      "end": 1
+  },
+  "scale": {
+      "start": 0.45,
+      "end": 0.45,
+      "minimumScaleMultiplier": 0.5
+  },
+  "color": {
+      "start": "#ffffff",
+      "end": "#f9fcc0"
+  },
+  "speed": {
+      "list": [
+          {
+              "value": 500,
+              "time": 0
+          },
+          {
+              "value": 0,
+              "time": 0.1
+          },
+          {
+              "value": 0,
+              "time": 1
+          }
+      ],
+      "isStepped": false,
+      "minimumSpeedMultiplier": 2.25
+  },
+  "acceleration": {
+      "x": 0,
+      "y": 2000
+  },
+  "startRotation": {
+      "min": 0,
+      "max": 360
+  },
+  "rotationSpeed": {
+      "min": 100,
+      "max": 200
+  },
+  "lifetime": {
+      "min": 1.5,
+      "max": 1.5
+  },
+  "blendMode": "normal",
+  "frequency": 0.001,
+  "emitterLifetime": 0.5,
+  "maxParticles": 70,
+  "pos": {
+      "x": 0,
+      "y": 0
+  },
+  "addAtBack": true,
+  "spawnType": "point"
+}
+            </textarea>
+          </div>
+          <button id="prettyBtn">Accept</button>
         </div>
       </div>
       <div id="canvas"></div>

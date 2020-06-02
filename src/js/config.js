@@ -76,6 +76,32 @@ export const imagePaths = {
   ],
 };
 
+// export const imagePaths = {
+//   spritesheet: "spritesheet.json",
+//   art: [
+//     {
+//       framerate: 30,
+//       loop: false,
+//       textures: [
+//         "RunRight01.png",
+//         "RunRight02.png",
+//         "RunRight03.png",
+//         "RunRight04.png",
+//       ],
+//     },
+//     {
+//       framerate: 30,
+//       loop: false,
+//       textures: [
+//         "RunRight04.png",
+//         "RunRight03.png",
+//         "RunRight02.png",
+//         "RunRight01.png",
+//       ],
+//     },
+//   ],
+// };
+
 export const particleConfig = {
   alpha: {
     start: 1,

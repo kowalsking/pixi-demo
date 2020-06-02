@@ -11,6 +11,7 @@ const fields = {
   main: document.querySelector("#main"),
   bigwin: document.querySelector("#bigwin"),
   file: document.querySelector("#file"),
+  loader: document.querySelector(".loader"),
 };
 
 export default fields;
