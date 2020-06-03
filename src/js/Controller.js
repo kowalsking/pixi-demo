@@ -10,14 +10,14 @@ class Controller {
   }
 
   animationSetup() {
-    this.animationConfig = JSON.parse(fields.spineTextarea.value);
-
-    this.type = this.animationConfig.type;
-    this.name = this.animationConfig.name;
+    this.name = fields.bigwinName.value;
+    this.type = fields.bigwinType.value;
+    this.duration = fields.bigwinDuration.value;
   }
 
   configSetup() {
     this.config = JSON.parse(fields.emitterTextarea.value);
+    this.imagePaths = JSON.parse(fields.imageTextarea.value);
   }
 
   setup() {
@@ -106,11 +106,6 @@ class Controller {
   }
 
   handleBigwinEvents() {
-    console.log("type: ", this.animationConfig.type);
-    console.log("loops: ", this.loops);
-    console.log("speed: ", this.speed);
-    console.log(`duration: ${this.animationConfig.duration / 1000} seconds`);
-
     this.bigwin.state.onEvent = (i, event) => {
       const start =
         event.data.name === "startLoop" || event.data.name === "start";
@@ -125,7 +120,7 @@ class Controller {
   }
 
   calculateSpeed() {
-    const duration = this.animationConfig.duration;
+    const duration = this.duration;
     const loopStartFrame = bigwinList[this.name].loopStartFrame;
     const loopEndFrame = bigwinList[this.name].loopEndFrame;
     const animationStart = (loopStartFrame / 30) * 1000;
@@ -133,11 +128,11 @@ class Controller {
     const framesCount = loopEndFrame - loopStartFrame;
     const loopDurationInMs = framesCount * 30;
 
-    if (this.animationConfig.type === "stretch") {
+    if (this.type === "stretch") {
       return (this.speed = Math.abs(
         (animationEnd - animationStart) / (duration - animationStart)
       ));
-    } else if (this.animationConfig.type === "loop") {
+    } else if (this.type === "loop") {
       this.loops = Math.round(duration / loopDurationInMs);
       if (this.loops === 0) this.loops = 1;
       return (this.speed = duration / (loopDurationInMs * this.loops));
@@ -216,12 +211,11 @@ class Controller {
 
     fields.openSidebar.addEventListener("click", (e) => {
       this.app.renderer.resize(this.width - 500, (this.width - 500) / coeff);
-      this.stage.pivot(0.5);
       // this.bigwinContainer.scale.x = (this.width - 500) / this.width;
       // this.bigwinContainer.scale.y = (this.width - 500) / coeff / this.height;
 
-      this.stage.scale.x = (this.width - 500) / this.width;
-      this.stage.scale.y = (this.width - 500) / coeff / this.height;
+      // this.stage.scale.x = (this.width - 500) / this.width;
+      // this.stage.scale.y = (this.width - 500) / coeff / this.height;
     });
 
     fields.closeSidebar.addEventListener("click", (e) => {
@@ -230,24 +224,15 @@ class Controller {
       // this.stage.scale.y = 1;
     });
 
-    window.addEventListener("click", (e) => {
-      console.log(e);
-    });
-
-    bigwin.addEventListener("change", (e) => {
-      this.animationConfig.name = e.target.value;
-      fields.spineTextarea.value = JSON.stringify(
-        this.animationConfig,
-        undefined,
-        4
-      );
+    fields.bigwinName.addEventListener("change", (e) => {
+      this.name = e.target.value;
       this.setupSpine(null, this.loader.resources);
       this.setupParticle();
     });
 
     fields.prettyBtn.addEventListener("click", (e) => {
-      this.handleTextarea(fields.spineTextarea);
       this.handleTextarea(fields.emitterTextarea);
+      this.handleTextarea(fields.imageTextarea);
       this.setupSpine(null, this.loader.resources);
       console.log(this.loader.resources);
 

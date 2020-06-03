@@ -204,9 +204,3 @@ export const bigwinList = {
     loopEndFrame: 116,
   },
 };
-
-export const animationSetup = {
-  name: "MMA",
-  type: "stretch", // stretch, loop
-  duration: 20000,
-};

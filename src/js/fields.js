@@ -1,17 +1,25 @@
 const fields = {
   spineTextarea: document.querySelector(".spineTextarea"),
   emitterTextarea: document.querySelector(".emitterTextarea"),
-  framerate: document.getElementById("framerate"),
+  imageTextarea: document.querySelector(".imageTextarea"),
+  framerate: document.querySelector("#framerate"),
   openSidebar: document.querySelector(".openSidebar"),
   closeSidebar: document.querySelector(".closeSidebar"),
-  bigwin: document.querySelector("#bigwin"),
   prettyBtn: document.querySelector("#prettyBtn"),
   invalidJson: document.querySelector(".invalidJson"),
   sidebar: document.querySelector("#sidebar"),
   main: document.querySelector("#main"),
-  bigwin: document.querySelector("#bigwin"),
+  bigwinName: document.querySelector(".bigwinName"),
+  bigwinType: document.querySelector(".bigwinType"),
+  bigwinDuration: document.querySelector(".bigwinDuration"),
   file: document.querySelector("#file"),
   loader: document.querySelector(".loader"),
+  deleteParameter: document.querySelectorAll(".deleteParameter"),
+  addParameter: document.querySelector(".addParameter"),
+  addAlphaPopup: document.querySelector(".addAlphaPopup"),
+  okAlpha: document.querySelector(".okAlpha"),
+  particleAlphaTable: document.querySelector(".particleAlphaTable"),
+  alphaTime: document.querySelector(".alphaTime"),
 };
 
 export default fields;

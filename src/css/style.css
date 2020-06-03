@@ -111,3 +111,22 @@ body {
     transform: rotate(360deg);
   }
 }
+
+h5 {
+  display: inline;
+}
+
+.bigwinDuration {
+  width: 60px;
+}
+
+.particleAlphaTable {
+  text-align: center;
+}
+.particleAlphaTable input {
+  width: 35px;
+}
+
+.addAlphaPopup {
+  display: none;
+}

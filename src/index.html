@@ -23,31 +23,86 @@
         <a href="#" class="closeSidebar">&times;</a>
         <div class="container">
           <div id="framerate"></div>
+          <button id="prettyBtn">Accept</button>
           <div>
             <input type="file" name="file" id="file" />
           </div>
           <div class="bigwin_setup">
             <div class="bigwin_wrapper">
               <h3>Select bigwin:</h3>
-              <select name="bigwin" id="bigwin"></select>
+              <p class="invalidJson"></p>
+              <div>
+                <h5>Name:</h5>
+                <select name="bigwinName" class="bigwinName"></select>
+                <h5>Type:</h5>
+                <select name="bigwinType" class="bigwinType">
+                  <option value="stretch">stretch</option>
+                  <option value="loop">loop</option>
+                </select>
+                <h5>Duration:</h5>
+                <input
+                  type="number"
+                  name="bigwinDuration"
+                  class="bigwinDuration"
+                  value="20000"
+                />
+              </div>
             </div>
           </div>
           <div>
-            <p class="invalidJson"></p>
-
-            <div class="config_header">Spine config:</div>
-            <textarea class="spineTextarea" cols="40" rows="6">
-{
-  "name": "MMA",
-  "type": "stretch",
-  "duration": 20000
-}
-            </textarea>
-          </div>
-          <div>
-            <p class="invalidJson"></p>
-
             <div class="config_header">Emmiter config:</div>
+            <div class="particleControls">
+              <details class="particleAlpha">
+                <summary>Alpha</summary>
+                <table class="particleAlphaTable">
+                  <thead>
+                    <th>Time</th>
+                    <th>Value</th>
+                    <th><button class="addParameter">+</button></th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="alphaTime">0</td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="1"
+                          value="0"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="alphaTime">0.5</td>
+                      <td>1</td>
+                      <td><button class="deleteParameter">-</button></td>
+                    </tr>
+                    <tr>
+                      <td class="alphaTime">1</td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="1"
+                          value="1"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="addAlphaPopup">
+                  <span
+                    >Time: <input type="number" step="0.1" min="0" max="1"
+                  /></span>
+                  <span
+                    >Value: <input type="number" step="0.1" min="0" max="1"
+                  /></span>
+                  <button class="okAlpha">ok</button>
+                </div>
+              </details>
+            </div>
             <textarea class="emitterTextarea" cols="40" rows="30">
 {
   "alpha": {
@@ -110,7 +165,88 @@
 }
             </textarea>
           </div>
-          <button id="prettyBtn">Accept</button>
+          <div>
+            <div class="config_header">Image config:</div>
+            <textarea class="imageTextarea" cols="40" rows="30">
+{
+  "spritesheet": "images/coin.json",
+  "art": [
+    {
+      "framerate": 30,
+      "loop": false,
+      "textures": [
+        "0001.png",
+        "0002.png",
+        "0003.png",
+        "0004.png",
+        "0005.png",
+        "0006.png",
+        "0007.png",
+        "0008.png",
+        "0009.png",
+        "0010.png",
+        "0011.png",
+        "0012.png",
+        "0013.png",
+        "0014.png",
+        "0015.png",
+        "0016.png",
+        "0017.png",
+        "0018.png",
+        "0019.png",
+        "0020.png",
+        "0021.png",
+        "0022.png",
+        "0023.png",
+        "0024.png",
+        "0025.png",
+        "0026.png",
+        "0027.png",
+        "0028.png",
+        "0029.png",
+        "0030.png"
+      ]
+    },
+    {
+      "framerate": 30,
+      "loop": false,
+      "textures": [
+        "0030.png",
+        "0029.png",
+        "0028.png",
+        "0027.png",
+        "0026.png",
+        "0025.png",
+        "0024.png",
+        "0023.png",
+        "0022.png",
+        "0021.png",
+        "0020.png",
+        "0019.png",
+        "0018.png",
+        "0017.png",
+        "0016.png",
+        "0015.png",
+        "0014.png",
+        "0013.png",
+        "0012.png",
+        "0011.png",
+        "0010.png",
+        "0009.png",
+        "0008.png",
+        "0007.png",
+        "0006.png",
+        "0005.png",
+        "0004.png",
+        "0003.png",
+        "0002.png",
+        "0001.png"
+      ]
+    }
+  ]
+}
+            </textarea>
+          </div>
         </div>
       </div>
       <div id="canvas"></div>
