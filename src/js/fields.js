@@ -16,10 +16,17 @@ const fields = {
   loader: document.querySelector(".loader"),
   deleteParameter: document.querySelectorAll(".deleteParameter"),
   addParameter: document.querySelector(".addParameter"),
-  addAlphaPopup: document.querySelector(".addAlphaPopup"),
-  okAlpha: document.querySelector(".okAlpha"),
-  particleAlphaTable: document.querySelector(".particleAlphaTable"),
+  alphaPopup: document.querySelector(".alphaPopup"),
+  speedPopup: document.querySelector(".speedPopup"),
+  scalePopup: document.querySelector(".scalePopup"),
+  speedTable: document.querySelector(".speedTable"),
+  scaleTable: document.querySelector(".scaleTable"),
+  alphaTable: document.querySelector(".alphaTable"),
   alphaTime: document.querySelector(".alphaTime"),
+  particleControls: document.querySelector(".particleControls"),
+  minimumScaleMultiplier: document.querySelector(".minimumScaleMultiplier"),
+  minimumSpeedMultiplier: document.querySelector(".minimumSpeedMultiplier"),
+  isStepped: document.querySelector(".isStepped"),
 };
 
 export default fields;

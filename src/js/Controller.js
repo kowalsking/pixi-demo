@@ -4,8 +4,9 @@ import fields from "./fields.js";
 class Controller {
   constructor(imagePaths) {
     this.imagePaths = imagePaths;
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.width = 1920;
+    this.height = 1080;
+    this.isSideBarOpen = false;
     this.setup();
   }
 
@@ -30,6 +31,7 @@ class Controller {
   setupCanvas() {
     this.createCanvas();
     this.createRenderer();
+    this.resizeCanvas();
   }
 
   createCanvas() {
@@ -194,35 +196,73 @@ class Controller {
     this.renderer.render(this.stage);
   }
 
-  eventsHandler() {
-    const coeff = 1920 / 1080;
+  resizeCanvas() {
+    const sideBarWidth = 500;
+    const ratio = 1920 / 1080;
+    let freeAreaWidth = window.innerWidth;
+    let freeAreaHeight = window.innerHeight;
+    if (this.isSideBarOpen) {
+      freeAreaWidth -= sideBarWidth;
+    }
 
+    let canvasWidth = freeAreaWidth;
+    let canvasHeight = freeAreaHeight;
+
+    if (canvasWidth / canvasHeight >= ratio) {
+      canvasWidth = canvasHeight * ratio;
+    } else {
+      canvasHeight = canvasWidth / ratio;
+    }
+
+    this.app.renderer.view.style.width = canvasWidth + "px";
+    this.app.renderer.view.style.height = canvasHeight + "px";
+  }
+
+  debounce(func, wait, immediate) {
+    let timeout;
+
+    return function executedFunction() {
+      const context = this;
+      const args = arguments;
+
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+
+      const callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
+
+  eventsHandler() {
     // coins explosion
     this.app.renderer.plugins.interaction.on("pointerdown", (e) => {
       if (!this.emitter) return;
       this.emitter.emit = true;
       this.emitter.resetPositionTracking();
-      console.log(e.data.global.x, e.data.global.y);
-      console.log(this.app.renderer.plugins.interaction.mouse.global);
-      const x = this.app.renderer.plugins.interaction.mouse.global.x;
-      const y = this.app.renderer.plugins.interaction.mouse.global.y;
+      const x = Math.round(
+        this.app.renderer.plugins.interaction.mouse.global.x
+      );
+      const y = Math.round(
+        this.app.renderer.plugins.interaction.mouse.global.y
+      );
       this.emitter.updateOwnerPos(x, y);
     });
 
     fields.openSidebar.addEventListener("click", (e) => {
-      this.app.renderer.resize(this.width - 500, (this.width - 500) / coeff);
-      // this.bigwinContainer.scale.x = (this.width - 500) / this.width;
-      // this.bigwinContainer.scale.y = (this.width - 500) / coeff / this.height;
-
-      // this.stage.scale.x = (this.width - 500) / this.width;
-      // this.stage.scale.y = (this.width - 500) / coeff / this.height;
+      this.isSideBarOpen = true;
+      this.resizeCanvas();
     });
 
     fields.closeSidebar.addEventListener("click", (e) => {
-      this.app.renderer.resize(this.width, this.height);
-      // this.stage.scale.x = 1;
-      // this.stage.scale.y = 1;
+      this.isSideBarOpen = false;
+      this.resizeCanvas();
     });
+
+    window.onresize = this.debounce(this.resizeCanvas.bind(this), 250);
 
     fields.bigwinName.addEventListener("change", (e) => {
       this.name = e.target.value;
@@ -234,7 +274,6 @@ class Controller {
       this.handleTextarea(fields.emitterTextarea);
       this.handleTextarea(fields.imageTextarea);
       this.setupSpine(null, this.loader.resources);
-      console.log(this.loader.resources);
 
       this.setupParticle();
     });

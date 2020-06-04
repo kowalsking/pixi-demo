@@ -120,13 +120,21 @@ h5 {
   width: 60px;
 }
 
-.particleAlphaTable {
+.particleControls table {
+  min-width: 144px;
   text-align: center;
 }
-.particleAlphaTable input {
-  width: 35px;
+.particleControls input {
+  width: 45px;
 }
 
-.addAlphaPopup {
+.alphaPopup,
+.scalePopup,
+.speedPopup {
   display: none;
+}
+
+summary {
+  outline: none;
+  cursor: pointer;
 }

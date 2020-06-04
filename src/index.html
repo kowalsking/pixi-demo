@@ -44,6 +44,7 @@
                   type="number"
                   name="bigwinDuration"
                   class="bigwinDuration"
+                  min="0"
                   value="20000"
                 />
               </div>
@@ -52,13 +53,13 @@
           <div>
             <div class="config_header">Emmiter config:</div>
             <div class="particleControls">
-              <details class="particleAlpha">
+              <details>
                 <summary>Alpha</summary>
-                <table class="particleAlphaTable">
+                <table class="alphaTable">
                   <thead>
                     <th>Time</th>
                     <th>Value</th>
-                    <th><button class="addParameter">+</button></th>
+                    <th><button class="addParameter alpha">+</button></th>
                   </thead>
                   <tbody>
                     <tr>
@@ -66,7 +67,7 @@
                       <td>
                         <input
                           type="number"
-                          step="0.1"
+                          step="0.01"
                           min="0"
                           max="1"
                           value="0"
@@ -74,16 +75,11 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="alphaTime">0.5</td>
-                      <td>1</td>
-                      <td><button class="deleteParameter">-</button></td>
-                    </tr>
-                    <tr>
                       <td class="alphaTime">1</td>
                       <td>
                         <input
                           type="number"
-                          step="0.1"
+                          step="0.01"
                           min="0"
                           max="1"
                           value="1"
@@ -92,14 +88,124 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="addAlphaPopup">
+                <div class="alphaPopup">
                   <span
-                    >Time: <input type="number" step="0.1" min="0" max="1"
+                    >Time: <input type="number" step="0.01" min="0" max="1"
                   /></span>
                   <span
-                    >Value: <input type="number" step="0.1" min="0" max="1"
+                    >Value: <input type="number" step="0.01" min="0" max="1"
                   /></span>
-                  <button class="okAlpha">ok</button>
+                  <button class="ok alpha">ok</button>
+                </div>
+              </details>
+
+              <details>
+                <summary>Scale</summary>
+                <table class="scaleTable">
+                  <thead>
+                    <th>Time</th>
+                    <th>Value</th>
+                    <th><button class="addParameter scale">+</button></th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="scaleTime">0</td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          max="1"
+                          value="1"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="scaleTime">1</td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          max="1"
+                          value="1"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="scalePopup">
+                  <span
+                    >Time: <input type="number" step="0.01" min="0" max="1"
+                  /></span>
+                  <span
+                    >Value: <input type="number" step="0.01" min="0" max="1"
+                  /></span>
+                  <button class="ok scale">ok</button>
+                </div>
+                <div class="minimumScaleMultiplier">
+                  <div>
+                    minimumScaleMultiplier:
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value="0.45"
+                    />
+                    <span>0.45</span>
+                  </div>
+                </div>
+              </details>
+
+              <details>
+                <summary>Speed</summary>
+                <table class="speedTable">
+                  <thead>
+                    <th>Time</th>
+                    <th>Value</th>
+                    <th><button class="addParameter speed">+</button></th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="speedTime">0</td>
+                      <td>
+                        <input type="number" step="100" min="0" value="500" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="speedTime">1</td>
+                      <td>
+                        <input type="number" step="100" min="0" value="0" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="speedPopup">
+                  <span
+                    >Time: <input type="number" step="0.01" min="0" max="1"
+                  /></span>
+                  <span>Value: <input type="number" step="100" min="0" /></span>
+                  <button class="ok speed">ok</button>
+                </div>
+
+                <div class="minimumSpeedMultiplier">
+                  <div>
+                    minimumSpeedMultiplier:
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      step="0.05"
+                      value="2.25"
+                    />
+                    <span>2.25</span>
+                  </div>
+                  <div>
+                    isStepped:
+                    <input class="isStepped" type="checkbox" name="isStepped" />
+                  </div>
                 </div>
               </details>
             </div>
